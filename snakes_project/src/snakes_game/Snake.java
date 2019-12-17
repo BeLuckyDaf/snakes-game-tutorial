@@ -1,4 +1,4 @@
-package snakes;
+package snakes_game;
 
 /*
 The class of the snake. It contains the coordinates of the snake body.
