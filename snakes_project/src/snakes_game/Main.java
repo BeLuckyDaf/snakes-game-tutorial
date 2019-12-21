@@ -12,7 +12,8 @@ public class Main {
     public static int[][] maze = new int[N][M]; // the actual maze where we will play
     public static Snake snake0 = new Snake(2, 2, 2, 1, 2, 0); // first snake creation (go to class Snake to see how the snakes are implemented). I have put the first snake in cell (2, 2)
     public static Snake snake1 = new Snake(5, 5, 5, 4, 5, 3); // second snake creation. I have put the second snake in cell (5, 5)
-
+    private final static String filePath = "logFile.txt"; // the .txt file path for storing snakes moves
+    public static LogFile file = new LogFile(filePath); // Creates or erases a file for storing snakes moves
     /*
     note: what is written on the output and what is present in the array maze is different.
     If a cell has a number 0 in it, it means that this cell is empty

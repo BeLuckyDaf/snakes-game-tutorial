@@ -19,6 +19,11 @@ public class moh extends TimerTask{
             the array moves will have 2 elements, the first one is the move for the first snake and the second is the move for the second snake.
             to understand how it is done we call the function "chooseDirection" in the bot Mahmood. Go to class Bot_m_darwish for implementation details
              */
+
+            Main.file.logBoardStatus(); // Prints information about snakes, apple and etc.
+            Main.file.logMoves(moves); // appends current moves to the file
+            Main.file.logMaze(); // print the maze to a file
+
             boolean validMove1 = validateMove(moves[1], Main.snake1); // this boolean variable will be false if this move will kill snake1
             boolean validMove0 = validateMove(moves[0], Main.snake0); // same here for snake0
             if(!validMove0 || !validMove1) {
@@ -140,15 +145,21 @@ public class moh extends TimerTask{
         else {
             // if a snake at least is dead then draw the maze and give the result
             showmaze();
+            //Main.file.logMaze(); // print the maze to a file
+
             if (!Main.snake0.alive && !Main.snake1.alive) {
                 System.out.println("0-0");
+                Main.file.logText("0-0");
             }
             else if (Main.snake0.alive && !Main.snake1.alive) {
                 System.out.println("1-0");
+                Main.file.logText("1-0");
             }
             else if (!Main.snake0.alive && Main.snake1.alive) {
                 System.out.println("0-1");
+                Main.file.logText("0-1");
             }
+            Main.file.closeFile(); // close the file
             System.exit(0); // turn the program off
         }
     }
