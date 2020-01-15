@@ -4,10 +4,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class BotRandom implements Bot {
-    public Starter game;
-    BotRandom (Starter game){
-        this.game = game;
-    }
 
     public Direction chooseDirection(final Snake mySnake, final Snake otherSnake, final int[][] maze){
         Coordinate x = mySnake.getHead();
@@ -15,13 +11,13 @@ public class BotRandom implements Bot {
         if(x.row > 0 && (mySnake.positions.get(1).row + 1 != x.row || mySnake.positions.get(1).column != x.column)){
             Arr.add(new Coordinate(x.row - 1, x.column));
         }
-        if(x.row < game.N - 1 && (mySnake.positions.get(1).row - 1 != x.row || mySnake.positions.get(1).column != x.column)){
+        if(x.row < Main.N - 1 && (mySnake.positions.get(1).row - 1 != x.row || mySnake.positions.get(1).column != x.column)){
             Arr.add(new Coordinate(x.row + 1, x.column));
         }
         if(x.column > 0 && (mySnake.positions.get(1).row != x.row || mySnake.positions.get(1).column + 1 != x.column)){
             Arr.add(new Coordinate(x.row, x.column - 1));
         }
-        if(x.column < game.M - 1 && (mySnake.positions.get(1).row != x.row || mySnake.positions.get(1).column - 1 != x.column)) {
+        if(x.column < Main.M - 1 && (mySnake.positions.get(1).row != x.row || mySnake.positions.get(1).column - 1 != x.column)) {
             Arr.add(new Coordinate(x.row, x.column + 1));
         }
 
