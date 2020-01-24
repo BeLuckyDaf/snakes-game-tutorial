@@ -1,6 +1,7 @@
 package snakes;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -11,25 +12,25 @@ public class Bot_n_strygin implements Bot {
     @Override
     /* choose the direction (stupidly) */
     public Direction chooseDirection(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple) {
-        var head = snake.getHead();
+        Coordinate head = snake.getHead();
 
         Coordinate afterHeadNotFinal = null;
         if (snake.body.size() >= 2) {
-            var it = snake.body.iterator();
+            Iterator<Coordinate> it = snake.body.iterator();
             it.next();
             afterHeadNotFinal = it.next();
         }
 
-        final var afterHead = afterHeadNotFinal;
+        final Coordinate afterHead = afterHeadNotFinal;
 
         /* The only illegal move is going backwards. Here we are checking for not doing it */
-        var validMoves = Arrays.stream(DIRECTIONS)
+        Direction[] validMoves = Arrays.stream(DIRECTIONS)
                 .filter(d -> !head.moveTo(d).equals(afterHead))
                 .sorted()
                 .toArray(Direction[]::new);
 
         /* Just naïve greedy algorithm that tries not to die at each moment in time */
-        var notLosing = Arrays.stream(validMoves)
+        Direction[] notLosing = Arrays.stream(validMoves)
                 .filter(d -> head.moveTo(d).inBounds(mazeSize))             // Don't leave maze
                 .filter(d -> !opponent.elements.contains(head.moveTo(d)))   // Don't collide with opponent...
                 .filter(d -> !snake.elements.contains(head.moveTo(d)))      // and yourself

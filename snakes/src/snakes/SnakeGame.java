@@ -2,6 +2,7 @@ package snakes;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Random;
 
 public class SnakeGame {
@@ -32,20 +33,20 @@ public class SnakeGame {
             for (int y = 0; y < mazeSize.y; y++)
                 cc[x][y] = '.';
 
-        var h0 = snake0.getHead();
-        var h1 = snake1.getHead();
+        Coordinate h0 = snake0.getHead();
+        Coordinate h1 = snake1.getHead();
         cc[h0.x][h0.y] = 'h';
         cc[h1.x][h1.y] = 'H';
 
-        var it = snake0.body.stream().skip(1).iterator();
+        Iterator<Coordinate> it = snake0.body.stream().skip(1).iterator();
         while (it.hasNext()) {
-            var bp = it.next();
+            Coordinate bp = it.next();
             cc[bp.x][bp.y] = 'b';
         }
 
         it = snake1.body.stream().skip(1).iterator();
         while (it.hasNext()) {
-            var bp = it.next();
+            Coordinate bp = it.next();
             cc[bp.x][bp.y] = 'B';
         }
 
@@ -90,19 +91,19 @@ public class SnakeGame {
     public boolean runOneStep() {
         output(toString());
 
-        var d0 = bot0.chooseDirection(snake0, snake1, mazeSize, appleCoordinate);
-        var d1 = bot1.chooseDirection(snake1, snake0, mazeSize, appleCoordinate);
+        Direction d0 = bot0.chooseDirection(snake0, snake1, mazeSize, appleCoordinate);
+        Direction d1 = bot1.chooseDirection(snake1, snake0, mazeSize, appleCoordinate);
 
         output("snake0->" + d0 + ", snake1->" + d1);
 
         //var grow = move % 3 == 2;
-        var grow0 = snake0.getHead().moveTo(d0).equals(appleCoordinate);
-        var grow1 = snake1.getHead().moveTo(d1).equals(appleCoordinate);
+        boolean grow0 = snake0.getHead().moveTo(d0).equals(appleCoordinate);
+        boolean grow1 = snake1.getHead().moveTo(d1).equals(appleCoordinate);
 
-        var wasGrow = grow0 || grow1;
+        boolean wasGrow = grow0 || grow1;
 
-        var s0dead = !snake0.moveTo(d0, grow0);
-        var s1dead = !snake1.moveTo(d1, grow1);
+        boolean s0dead = !snake0.moveTo(d0, grow0);
+        boolean s1dead = !snake1.moveTo(d1, grow1);
 
         if (wasGrow || appleCoordinate == null)
             appleCoordinate = randomNonOccupiedCell();
@@ -110,11 +111,11 @@ public class SnakeGame {
         s0dead |= snake0.headCollidesWith(snake1);
         s1dead |= snake1.headCollidesWith(snake0);
 
-        var cont = !(s0dead || s1dead);
+        boolean cont = !(s0dead || s1dead);
 
         if (!cont) {
             gameResult = "";
-            var result = "0 - 0";
+            String result = "0 - 0";
             if (s0dead ^ s1dead)
                 result = (s0dead ? 0 : 1) + " - " + (s1dead ? 0 : 1);
 
@@ -138,7 +139,7 @@ public class SnakeGame {
     /* selects random non-occupied cell of maze */
     private Coordinate randomNonOccupiedCell() {
         while (true) {
-            var c = new Coordinate(rnd.nextInt(mazeSize.x), rnd.nextInt(mazeSize.y));
+            Coordinate c = new Coordinate(rnd.nextInt(mazeSize.x), rnd.nextInt(mazeSize.y));
             if (snake0.elements.contains(c))
                 continue;
             if (snake1.elements.contains(c))

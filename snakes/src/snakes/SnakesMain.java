@@ -10,7 +10,7 @@ public class SnakesMain {
         Scanner sc = new Scanner(System.in);
         boolean continue_;
         do {
-            var game = new SnakeGame(
+            SnakeGame game = new SnakeGame(
                     new Coordinate(8, 8), // mazeSize
 
                     new Coordinate(2, 2), // head0

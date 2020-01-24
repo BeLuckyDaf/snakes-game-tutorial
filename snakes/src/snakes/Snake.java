@@ -30,7 +30,7 @@ public class Snake implements Cloneable {
     public Snake(Coordinate head, Direction tailDirection, int size, Coordinate mazeSize) {
         this(head, mazeSize);
 
-        var p = head.moveTo(tailDirection);
+        Coordinate p = head.moveTo(tailDirection);
         for (int i = 0; i < size - 1; i++) {
             body.addLast(p);
             elements.add(p);
@@ -45,7 +45,7 @@ public class Snake implements Cloneable {
 
     /* move in direction */
     public boolean moveTo(Direction d, boolean grow) {
-        var newHead = getHead().moveTo(d);
+        Coordinate newHead = getHead().moveTo(d);
 
         if (!newHead.inBounds(mazeSize))
             return false; // Left maze
@@ -70,8 +70,8 @@ public class Snake implements Cloneable {
     @Override
     public Snake clone()
     {
-        var newElements = new HashSet<>(elements);
-        var newBody = new LinkedList<>(body);
+        HashSet<Coordinate> newElements = new HashSet<>(elements);
+        LinkedList<Coordinate> newBody = new LinkedList<>(body);
         return new Snake(mazeSize, newElements, newBody);
     }
 }

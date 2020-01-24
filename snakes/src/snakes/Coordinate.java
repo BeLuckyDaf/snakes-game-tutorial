@@ -43,8 +43,8 @@ public class Coordinate implements Comparable<Coordinate> {
     /* compare to other coordinate */
     @Override
     public int compareTo(Coordinate o) {
-        var dx = Integer.compare(x, o.x);
-        var dy = Integer.compare(y, o.y);
+        int dx = Integer.compare(x, o.x);
+        int dy = Integer.compare(y, o.y);
         if (dx == 0)
             return dy;
         else
