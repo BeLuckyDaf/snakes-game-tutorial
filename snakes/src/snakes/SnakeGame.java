@@ -7,6 +7,8 @@ import java.util.Random;
 
 public class SnakeGame {
     private static final String LOG_FILE = "log.txt";
+    // timeout threshold in seconds
+    private static final long TIMEOUT_THRESHOLD = 1;
     public final Snake snake0, snake1;
     public final Bot bot0, bot1;
     public final Coordinate mazeSize;
@@ -33,9 +35,12 @@ public class SnakeGame {
             for (int y = 0; y < mazeSize.y; y++)
                 cc[x][y] = '.';
 
+        // Coordinate of head of first snake on board
         Coordinate h0 = snake0.getHead();
-        Coordinate h1 = snake1.getHead();
         cc[h0.x][h0.y] = 'h';
+
+        // Coordinate of head of second snake on board
+        Coordinate h1 = snake1.getHead();
         cc[h1.x][h1.y] = 'H';
 
         Iterator<Coordinate> it = snake0.body.stream().skip(1).iterator();
@@ -91,8 +96,18 @@ public class SnakeGame {
     public boolean runOneStep() {
         output(toString());
 
+        long startTime = System.currentTimeMillis();
         Direction d0 = bot0.chooseDirection(snake0, snake1, mazeSize, appleCoordinate);
+        long endTime = System.currentTimeMillis();
+
+
+        boolean s0timeout = checkTimeout(startTime, endTime);
+
+        startTime = System.currentTimeMillis();
         Direction d1 = bot1.chooseDirection(snake1, snake0, mazeSize, appleCoordinate);
+        endTime = System.currentTimeMillis();
+
+        boolean s1timeout = checkTimeout(startTime, endTime);
 
         output("snake0->" + d0 + ", snake1->" + d1);
 
@@ -111,7 +126,7 @@ public class SnakeGame {
         s0dead |= snake0.headCollidesWith(snake1);
         s1dead |= snake1.headCollidesWith(snake0);
 
-        boolean cont = !(s0dead || s1dead);
+        boolean cont = !(s0dead || s1dead || s0timeout || s1timeout);
 
         if (!cont) {
             gameResult = "";
@@ -134,6 +149,11 @@ public class SnakeGame {
             }
 
         output(gameResult);
+    }
+
+    private boolean checkTimeout(long startTime, long endTime){
+        long duration = (endTime - startTime) / 1000;
+        return duration > TIMEOUT_THRESHOLD;
     }
 
     /* selects random non-occupied cell of maze */
