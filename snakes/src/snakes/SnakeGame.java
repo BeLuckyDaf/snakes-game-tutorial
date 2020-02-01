@@ -7,15 +7,19 @@ import java.util.Random;
 public class SnakeGame {
     private static final String LOG_FILE = "log.txt";
     public final Snake snake0, snake1;
-    public final Bot bot0, bot1;
+    private final Bot bot0, bot1;
     public final Coordinate mazeSize;
     private final Random rnd = new Random();
-    public Coordinate appleCoordinate = null;
+    public Coordinate appleCoordinate;
     public String gameResult = "0 - 0";
+    public int appleEaten0 = 0;
+    public int appleEaten1 = 0;
+    private int snakeSize;
 
     /* Constructs SnakeGame class */
     public SnakeGame(Coordinate mazeSize, Coordinate head0, Direction tailDir0, Coordinate head1, Direction tailDir1, int size,
                      Bot bot0, Bot bot1) {
+        snakeSize = size;
         this.mazeSize = mazeSize;
         this.snake0 = new Snake(head0, tailDir0, size, mazeSize);
         this.snake1 = new Snake(head1, tailDir1, size, mazeSize);
@@ -76,8 +80,7 @@ public class SnakeGame {
             fw.write(text + "\n");
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 fw.close();
             } catch (IOException e) {
@@ -104,9 +107,11 @@ public class SnakeGame {
         var s0dead = !snake0.moveTo(d0, grow0);
         var s1dead = !snake1.moveTo(d1, grow1);
 
-        if (wasGrow || appleCoordinate == null)
+        if (wasGrow || appleCoordinate == null) {
+            appleEaten0 = snake0.body.size() - snakeSize;
+            appleEaten1 = snake1.body.size() - snakeSize;
             appleCoordinate = randomNonOccupiedCell();
-
+        }
         s0dead |= snake0.headCollidesWith(snake1);
         s1dead |= snake1.headCollidesWith(snake0);
 
@@ -117,7 +122,8 @@ public class SnakeGame {
             var result = "0 - 0";
             if (s0dead ^ s1dead)
                 result = (s0dead ? 0 : 1) + " - " + (s1dead ? 0 : 1);
-
+            else if (s0dead && s1dead)
+                result = (appleEaten0 > appleEaten1 ? 1 : 0) + " - " + (appleEaten1 > appleEaten0 ? 1 : 0);
             gameResult += result;
         }
         return cont;

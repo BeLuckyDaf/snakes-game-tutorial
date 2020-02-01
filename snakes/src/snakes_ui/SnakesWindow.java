@@ -16,11 +16,8 @@ public class SnakesWindow implements Runnable{
     /* construct main window */
     public SnakesWindow(SnakeGame game){
         frame = new JFrame("Snake Game");
-
         this.game = game;
-
         canvas = new SnakeCanvas(game);
-
         JPanel panel = (JPanel) frame.getContentPane();
         panel.setPreferredSize(canvas.renderSize);
         panel.setLayout(new GridLayout());
@@ -39,7 +36,7 @@ public class SnakesWindow implements Runnable{
 
         //canvas.createBufferStrategy(2);
         canvas.requestFocus();
-
+        centreWindow(frame);
         //canvas.bufferStrategy = canvas.getBufferStrategy();
     }
 
@@ -65,6 +62,12 @@ public class SnakesWindow implements Runnable{
         }
 
         JOptionPane.showMessageDialog(null, game.gameResult, "Game results", JOptionPane.INFORMATION_MESSAGE);
+    }
+    public static void centreWindow(Window frame) {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+        frame.setLocation(x, y);
     }
 }
 

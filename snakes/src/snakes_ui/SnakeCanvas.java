@@ -3,6 +3,7 @@ package snakes_ui;
 import snakes.Coordinate;
 import snakes.SnakeGame;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -15,11 +16,13 @@ public class SnakeCanvas extends Canvas {
     private static final Color color0 = new Color(92, 192, 255);
     private static final Color color1 = new Color(255, 255, 255);
     private static final Color bodyColor0 = new Color(92, 192, 255);
-    private static final Color bodyColor1 = new Color(255,255, 255);
+    private static final Color bodyColor1 = new Color(255, 255, 255);
     private static final Color backgroundColor = new Color(0, 0, 0);
     private static final Color borderColor = new Color(22, 50, 76);
     private static final Color appleColor = Color.red;
-
+    private static final ImageIcon apple = new ImageIcon(new ImageIcon(
+            "C:\\Users\\Admin\\Documents\\GitHub\\snakes_game\\snakes\\src\\Image\\apple.png")
+            .getImage().getScaledInstance(CELL_SIZE - 10, CELL_SIZE - 10, Image.SCALE_SMOOTH));
     Dimension renderSize;
     BufferStrategy bufferStrategy;
     private SnakeGame game;
@@ -53,10 +56,10 @@ public class SnakeCanvas extends Canvas {
     }
 
     /* render the game */
-    private void render(Graphics2D g){
+    private void render(Graphics2D g) {
 
         g.setColor(borderColor);
-        g.fillRect(0,0, renderSize.width, renderSize.height);
+        g.fillRect(0, 0, renderSize.width, renderSize.height);
         g.setColor(backgroundColor);
         g.fillRect(CELL_SIZE, CELL_SIZE, renderSize.width - 2 * CELL_SIZE, renderSize.height - 2 * CELL_SIZE);
 
@@ -82,17 +85,20 @@ public class SnakeCanvas extends Canvas {
         //Print the score
         g.setFont(new Font("Droid Serif", Font.PLAIN, 28));
         g.setColor(new Color(228, 255, 224));
-        g.drawString(game.gameResult, (float) (renderSize.width - 5*CELL_SIZE) -17, (float) (renderSize.height - 10));
+        g.drawString(game.gameResult, renderSize.width / 2 - CELL_SIZE / 2, renderSize.height - 10);
+        g.drawString(Integer.toString(game.appleEaten0), renderSize.width / 2 - 3 * CELL_SIZE, renderSize.height - 10);
+        g.drawString(Integer.toString(game.appleEaten1), renderSize.width / 2 + 3 * CELL_SIZE, renderSize.height - 10);
         g.setColor(new Color(92, 192, 255));
-        g.fillRect(renderSize.width - 6*CELL_SIZE -2,renderSize.height - CELL_SIZE + 11,CELL_SIZE-18,CELL_SIZE -18);
+        g.fillRect(renderSize.width / 2 - CELL_SIZE - 4, renderSize.height - CELL_SIZE + 11, CELL_SIZE - 18, CELL_SIZE - 18);
         g.setColor(new Color(92, 192, 255));
-        g.fillRect(renderSize.width - 6*CELL_SIZE +2,renderSize.height - CELL_SIZE + 15,CELL_SIZE-26,CELL_SIZE -26);
+        g.fillRect(renderSize.width / 2 - CELL_SIZE, renderSize.height - CELL_SIZE + 15, CELL_SIZE - 26, CELL_SIZE - 26);
 
         g.setColor(new Color(255, 255, 255));
-        g.fillRect(renderSize.width - 4*CELL_SIZE +3,renderSize.height - CELL_SIZE + 11,CELL_SIZE-18,CELL_SIZE -18);
+        g.fillRect(renderSize.width / 2 + CELL_SIZE, renderSize.height - CELL_SIZE + 11, CELL_SIZE - 18, CELL_SIZE - 18);
         g.setColor(new Color(255, 255, 255));
-        g.fillRect(renderSize.width - 4*CELL_SIZE +7,renderSize.height - CELL_SIZE + 15,CELL_SIZE-26,CELL_SIZE -26);
-
+        g.fillRect(renderSize.width / 2 + CELL_SIZE + 4, renderSize.height - CELL_SIZE + 15, CELL_SIZE - 26, CELL_SIZE - 26);
+        apple.paintIcon(this, g, renderSize.width / 2 - 2 * CELL_SIZE - 20, renderSize.height - CELL_SIZE + 7);
+        apple.paintIcon(this, g, renderSize.width / 2 + 2 * CELL_SIZE + 6, renderSize.height - CELL_SIZE + 7);
     }
 
     /* repaint the control */

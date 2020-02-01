@@ -13,10 +13,10 @@ public class SnakesMain {
             var game = new SnakeGame(
                     new Coordinate(8, 8), // mazeSize
 
-                    new Coordinate(2, 2), // head0
+                    new Coordinate(8, 4), // head0
                     Direction.DOWN,         // tailDirection2
-                    new Coordinate(5, 5), // head1
-                    Direction.UP,           // tailDirection1
+                    new Coordinate(7, 5), // head1
+                    Direction.LEFT,           // tailDirection1
                     3,  // size
                     new Bot_n_strygin(),    // bot0
                     new Bot_n_strygin()     // bot1
