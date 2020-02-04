@@ -38,8 +38,8 @@ public class Bot_n_strygin implements Bot {
                 .toArray(Direction[]::new);
 
         if (notLosing.length > 0) /* If you want more randomness and tension to the game, uncomment the rnd stuff */
-            return notLosing[0];
-            //return notLosing[rnd.nextInt(notLosing.length)];
+            //return notLosing[0];
+            return notLosing[rnd.nextInt(notLosing.length)];
         else
             // We can't avoid losing here :shrug:
             return validMoves[0];
