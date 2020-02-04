@@ -15,7 +15,7 @@ public class SnakesUIMain {
                 Direction.UP,           // tailDirection1
                 3,                 // initial snake size
                 new Bot_n_strygin(),      // bot0
-                new Bot_n_strygin()       // bot1
+                new BotVS()       // bot1
         );
 
         SnakesWindow window = new SnakesWindow(game);
