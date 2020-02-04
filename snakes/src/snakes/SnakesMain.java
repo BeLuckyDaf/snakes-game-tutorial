@@ -2,24 +2,27 @@ package snakes;
 
 import java.util.*;
 
+/**
+ * This class implements entry point of the Snake game
+ */
 public class SnakesMain {
-    /* entry point of the application */
+    /**
+     * Entry point of the application
+     * @param args system arguments
+     */
     public static void main(String[] args) {
-        // by Nikita Strygin
-        // n.strygin@innopolis.university
         Scanner sc = new Scanner(System.in);
         boolean continue_;
         do {
             SnakeGame game = new SnakeGame(
                     new Coordinate(8, 8), // mazeSize
-
                     new Coordinate(2, 2), // head0
-                    Direction.DOWN,         // tailDirection2
+                    Direction.DOWN,            // tailDirection0
                     new Coordinate(5, 5), // head1
-                    Direction.UP,           // tailDirection1
+                    Direction.UP,              // tailDirection1
                     3,  // size
-                    new Bot_n_strygin(),    // bot0
-                    new Bot_n_strygin()     // bot1
+                    new Bot_n_strygin(),       // bot0
+                    new Bot_n_strygin()        // bot1
             );
             game.run();
             String c;

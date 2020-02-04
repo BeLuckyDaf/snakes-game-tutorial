@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class SnakeGame {
     private static final String LOG_FILE = "log.txt";
-    // timeout threshold in seconds
+    // timeout threshold for taking a decision in seconds
     private static final long TIMEOUT_THRESHOLD = 1;
     public final Snake snake0, snake1;
     public final Bot bot0, bot1;
@@ -16,7 +16,18 @@ public class SnakeGame {
     public Coordinate appleCoordinate = null;
     public String gameResult = "0 - 0";
 
-    /* Constructs SnakeGame class */
+
+    /**
+     * Constructs SnakeGame class
+     * @param mazeSize size of the game board
+     * @param head0 initial coordinate of first snake's head
+     * @param tailDir0 initial direction of first snake's tail
+     * @param head1 initial coordinate of second snake's head
+     * @param tailDir1 initial direction of first snake's tail
+     * @param size initial length of snakes
+     * @param bot0 first smart snake bot
+     * @param bot1 second smart snake bot
+     */
     public SnakeGame(Coordinate mazeSize, Coordinate head0, Direction tailDir0, Coordinate head1, Direction tailDir1, int size,
                      Bot bot0, Bot bot1) {
         this.mazeSize = mazeSize;
@@ -28,7 +39,11 @@ public class SnakeGame {
         appleCoordinate = randomNonOccupiedCell();
     }
 
-    /* Converts game to string representation */
+
+    /**
+     * Converts game to string representation
+     * @return game state as a string
+     */
     public String toString() {
         char[][] cc = new char[mazeSize.x][mazeSize.y];
         for (int x = 0; x < mazeSize.x; x++)
@@ -67,7 +82,10 @@ public class SnakeGame {
         return sb.toString();
     }
 
-    /* Outputs text to stdout and file */
+    /**
+     * Outputs text to stdout and file
+     * @param text text that should be displayed
+     */
     private void output(String text) {
         System.out.println(text);
         FileWriter fw;
@@ -92,10 +110,14 @@ public class SnakeGame {
         }
     }
 
-    /* run one game step, return whether to continue the game */
+    /**
+     * Run one game step, return whether to continue the game
+     * @return whether to continue the game
+     */
     public boolean runOneStep() {
         output(toString());
 
+        // the first bot takes a decision of next move
         long startTime = System.currentTimeMillis();
         Direction d0 = bot0.chooseDirection(snake0, snake1, mazeSize, appleCoordinate);
         long endTime = System.currentTimeMillis();
@@ -103,6 +125,7 @@ public class SnakeGame {
 
         boolean s0timeout = checkTimeout(startTime, endTime);
 
+        // the second bot takes a decision of next move
         startTime = System.currentTimeMillis();
         Direction d1 = bot1.chooseDirection(snake1, snake0, mazeSize, appleCoordinate);
         endTime = System.currentTimeMillis();
@@ -126,6 +149,10 @@ public class SnakeGame {
         s0dead |= snake0.headCollidesWith(snake1);
         s1dead |= snake1.headCollidesWith(snake0);
 
+        /* stopping game condition
+            - one of snakes collides with something
+            - one of the snakes decides what it's next move too long
+        */
         boolean cont = !(s0dead || s1dead || s0timeout || s1timeout);
 
         if (!cont) {
@@ -139,7 +166,9 @@ public class SnakeGame {
         return cont;
     }
 
-    /* run the game */
+    /**
+     * Run the game
+     */
     public void run() {
         while (runOneStep())
             try {
@@ -151,12 +180,21 @@ public class SnakeGame {
         output(gameResult);
     }
 
+    /**
+     * Check time spent by a snake for taking decision does not exceed the threshold
+     * @param startTime starting time of deciding next move
+     * @param endTime finish time of thinking
+     * @return True - if exceed
+     */
     private boolean checkTimeout(long startTime, long endTime){
         long duration = (endTime - startTime) / 1000;
         return duration > TIMEOUT_THRESHOLD;
     }
 
-    /* selects random non-occupied cell of maze */
+    /**
+     * Selects random non-occupied cell of maze
+     * @return random non-occupied coordinate of the game board
+     */
     private Coordinate randomNonOccupiedCell() {
         while (true) {
             Coordinate c = new Coordinate(rnd.nextInt(mazeSize.x), rnd.nextInt(mazeSize.y));
