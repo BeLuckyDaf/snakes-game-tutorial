@@ -6,6 +6,7 @@ import snakes.SnakeGame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Iterator;
 
 public class SnakeCanvas extends Canvas {
     private static final int CELL_SIZE = 40;
@@ -65,16 +66,16 @@ public class SnakeCanvas extends Canvas {
 
         fillCellWithPad(g, game.appleCoordinate, appleColor, ApplePad);
 
-        var it = game.snake0.body.stream().iterator();
+        Iterator<Coordinate> it = game.snake0.body.stream().iterator();
         while (it.hasNext()) {
-            var bp = it.next();
+            Coordinate bp = it.next();
             fillCell(g, bp, color0);
             fillSmallerCell(g, bp, bodyColor0);
         }
 
         it = game.snake1.body.stream().iterator();
         while (it.hasNext()) {
-            var bp = it.next();
+            Coordinate bp = it.next();
             fillCell(g, bp, color1);
             fillSmallerCell(g, bp, bodyColor1);
         }
