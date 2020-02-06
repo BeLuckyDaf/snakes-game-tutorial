@@ -6,13 +6,9 @@ public class SnakesUIMain {
     /* UI Entry point */
     public static void main(String[] args) {
 
-<<<<<<< HEAD
         var game = new SnakeGame(
                 new Coordinate(14, 14), // mazeSize
-=======
-        SnakeGame game = new SnakeGame(
-                new Coordinate(8, 8), // mazeSize
->>>>>>> 4a7c4120d8b90a51b4e7850c714881197aa6c765
+
 
                 new Coordinate(4, 6), // head0
                 Direction.DOWN,         // tailDirection2

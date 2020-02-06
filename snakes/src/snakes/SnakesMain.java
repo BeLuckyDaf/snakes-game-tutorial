@@ -22,23 +22,9 @@ public class SnakesMain {
         Scanner sc = new Scanner(System.in);
         boolean continue_;
         do {
-<<<<<<< HEAD
-            var game = new SnakeGame(
-                    new Coordinate(8, 8), // mazeSize
 
-                    new Coordinate(8, 4), // head0
-                    Direction.DOWN,         // tailDirection2
-                    new Coordinate(7, 5), // head1
-                    Direction.LEFT,           // tailDirection1
-                    3,  // size
-                    new Bot_n_strygin(),    // bot0
-                    new Bot_n_strygin()     // bot1
-            );
-            game.run();
-=======
             start_round_robin_tournament(bots);
 
->>>>>>> 4a7c4120d8b90a51b4e7850c714881197aa6c765
             String c;
             do {
                 System.out.println("Again? (yes/no)");
