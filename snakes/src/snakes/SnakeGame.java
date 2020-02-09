@@ -136,6 +136,7 @@ public class SnakeGame {
         boolean s1timeout = checkTimeout(startTime, endTime);
 
         output("snake0->" + d0 + ", snake1->" + d1);
+        output("Apples eaten: " + appleEaten0 + " - " + appleEaten1);
 
         //var grow = move % 3 == 2;
         boolean grow0 = snake0.getHead().moveTo(d0).equals(appleCoordinate);

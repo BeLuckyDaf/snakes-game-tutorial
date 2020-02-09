@@ -42,9 +42,15 @@ public class BotVS implements Bot {
         
         if (notLosing.length > 0) {
             // Choose the shortest path to the apple
-            Arrays.sort(notLosing, new SortByManhattanDistance(apple, head));
-            if (Manhattan(opponent.getHead(), apple) > Manhattan(head, apple))
-                return notLosing[notLosing.length-1];
+            int myDistance = Manhattan(head, apple);
+            int opponentDistance = Manhattan(opponent.getHead(), apple);
+            Random random = new Random();
+            if (opponentDistance > myDistance || opponentDistance == myDistance && random.nextInt() % 2 == 0) {
+                Arrays.sort(notLosing, new SortByManhattanDistance(apple, head));
+            } else {
+                Coordinate opposite = new Coordinate(mazeSize.x - apple.x, mazeSize.y - apple.y);
+                Arrays.sort(notLosing, new SortByManhattanDistance(opposite, head));
+            }
             return notLosing[0];
         } else
             // We can't avoid losing here :shrug:
