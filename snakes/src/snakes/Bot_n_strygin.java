@@ -13,6 +13,7 @@ public class Bot_n_strygin implements Bot {
     /* choose the direction (stupidly) */
     public Direction chooseDirection(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple) {
         Coordinate head = snake.getHead();
+        Coordinate headOpponent = opponent.getHead();
 
         Coordinate afterHeadNotFinal = null;
         if (snake.body.size() >= 2) {
@@ -37,12 +38,28 @@ public class Bot_n_strygin implements Bot {
                 .sorted()
                 .toArray(Direction[]::new);
 
-        if (notLosing.length > 0) /* If you want more randomness and tension to the game, uncomment the rnd stuff */
-            //return notLosing[0];
+        double shortestDistanceToApple = Math.max(mazeSize.x, mazeSize.y) + 1;
+        Direction shortestDirectionToApple = null;
+
+        for (Direction d: notLosing){
+            double dist = calculateManhattanDistance(head.moveTo(d), apple);
+            if(dist < shortestDistanceToApple){
+                shortestDistanceToApple = dist;
+                shortestDirectionToApple = d;
+            }
+        }
+
+        double shortestDistanceToAppleOpponent = calculateManhattanDistance(headOpponent, apple);
+
+        if (shortestDistanceToAppleOpponent > shortestDistanceToApple)
+            return shortestDirectionToApple;
+        else if (notLosing.length > 0)
             return notLosing[rnd.nextInt(notLosing.length)];
         else
-            // We can't avoid losing here :shrug:
-            //return validMoves[0];
             return validMoves[rnd.nextInt(validMoves.length)];
+    }
+
+    private double calculateManhattanDistance(Coordinate a, Coordinate b){
+        return Math.sqrt(Math.abs(a.x - b.x) + Math.abs(a.y - b.y));
     }
 }
