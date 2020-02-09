@@ -18,8 +18,7 @@ public class SnakeGame {
     public int appleEaten0 = 0;
     public int appleEaten1 = 0;
     private int snakeSize;
-
-
+    public String name0,name1;
     /**
      * Constructs SnakeGame class
      * @param mazeSize size of the game board
@@ -39,6 +38,8 @@ public class SnakeGame {
         this.snake1 = new Snake(head1, tailDir1, size, mazeSize);
         this.bot0 = bot0;
         this.bot1 = bot1;
+        this.name0 = bot0.getClass().getSimpleName();
+        this.name1 = bot1.getClass().getSimpleName();
 
         appleCoordinate = randomNonOccupiedCell();
     }

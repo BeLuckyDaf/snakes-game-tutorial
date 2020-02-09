@@ -37,7 +37,7 @@ public class SnakesMain {
     // by Danil Kabirov
     public static void start_round_robin_tournament(ArrayList<Bot> bots) {
         // init game settings
-        Coordinate mazeSize = new Coordinate(8, 8);
+        Coordinate mazeSize = new Coordinate(14, 14);
         Coordinate head0 = new Coordinate(2, 2);
         Direction tailDirection0 = Direction.DOWN;
         Coordinate head1 = new Coordinate(5, 5);
