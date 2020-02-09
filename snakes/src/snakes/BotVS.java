@@ -43,10 +43,16 @@ public class BotVS implements Bot {
         if (notLosing.length > 0) {
             // Choose the shortest path to the apple
             Arrays.sort(notLosing, new SortByManhattanDistance(apple, head));
+            if (Manhattan(opponent.getHead(), apple) > Manhattan(head, apple))
+                return notLosing[notLosing.length-1];
             return notLosing[0];
         } else
             // We can't avoid losing here :shrug:
             return validMoves[0];
+    }
+
+    private static int Manhattan(Coordinate a, Coordinate b) {
+        return Math.abs(b.x - a.x) + Math.abs(b.y - a.y);
     }
 
     private static class SortByManhattanDistance implements Comparator<Direction> {
@@ -60,10 +66,6 @@ public class BotVS implements Bot {
 
         public int compare(Direction a, Direction b) {
             return Integer.compare(Manhattan(head.moveTo(a), target), Manhattan(head.moveTo(b), target));
-        }
-
-        private int Manhattan(Coordinate a, Coordinate b) {
-            return Math.abs(b.x - a.x) + Math.abs(b.y - a.y);
         }
     }
 }

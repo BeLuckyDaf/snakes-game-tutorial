@@ -6,7 +6,7 @@ public class SnakesUIMain {
     /* UI Entry point */
     public static void main(String[] args) {
 
-        var game = new SnakeGame(
+        SnakeGame game = new SnakeGame(
                 new Coordinate(14, 14), // mazeSize
 
 
@@ -15,7 +15,7 @@ public class SnakesUIMain {
                 new Coordinate(7, 7), // head1
                 Direction.UP,           // tailDirection1
                 3,                 // initial snake size
-                new Bot_n_strygin(),      // bot0
+                new BotVS(),      // bot0
                 new BotVS()       // bot1
         );
 
