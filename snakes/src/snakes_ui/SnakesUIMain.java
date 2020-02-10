@@ -7,15 +7,15 @@ public class SnakesUIMain {
     public static void main(String[] args) {
 
         SnakeGame game = new SnakeGame(
-                new Coordinate(8, 8), // mazeSize
+                new Coordinate(14, 14), // mazeSize
 
                 new Coordinate(2, 2), // head0
                 Direction.DOWN,         // tailDirection2
                 new Coordinate(5, 5), // head1
                 Direction.UP,           // tailDirection1
                 3,                 // initial snake size
-                new Bot_n_strygin(),      // bot0
-                new BotVS()       // bot1
+                new BotVS(),      // bot0
+                new Bot_D_Kabirov()       // bot1
         );
 
         SnakesWindow window = new SnakesWindow(game);
