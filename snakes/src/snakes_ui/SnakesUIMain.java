@@ -15,7 +15,7 @@ public class SnakesUIMain {
                 new Coordinate(7, 7), // head1
                 Direction.UP,           // tailDirection1
                 3,                 // initial snake size
-                new BotVS(),      // bot0
+                new Bot_V_Vasilev(),      // bot0
                 new Bot_D_Kabirov()       // bot1
         );
 
