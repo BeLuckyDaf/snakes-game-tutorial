@@ -48,7 +48,8 @@ public class BotVS implements Bot {
             if (opponentDistance > myDistance || opponentDistance == myDistance && random.nextInt() % 2 == 0) {
                 Arrays.sort(notLosing, new SortByManhattanDistance(apple, head));
             } else {
-                Coordinate opposite = new Coordinate(mazeSize.x - apple.x, mazeSize.y - apple.y);
+                //Coordinate opposite = new Coordinate(mazeSize.x - apple.x, mazeSize.y - apple.y);
+                Coordinate opposite = new Coordinate(mazeSize.x/2, mazeSize.y/2);
                 Arrays.sort(notLosing, new SortByManhattanDistance(opposite, head));
             }
             return notLosing[0];
