@@ -10,13 +10,15 @@ public class SnakeGame {
     // timeout threshold for taking a decision in seconds
     private static final long TIMEOUT_THRESHOLD = 1;
     public final Snake snake0, snake1;
-    public final Bot bot0, bot1;
+    private final Bot bot0, bot1;
     public final Coordinate mazeSize;
     private final Random rnd = new Random();
-    public Coordinate appleCoordinate = null;
+    public Coordinate appleCoordinate;
     public String gameResult = "0 - 0";
-
-
+    public int appleEaten0 = 0;
+    public int appleEaten1 = 0;
+    private int snakeSize;
+    public String name0,name1;
     /**
      * Constructs SnakeGame class
      * @param mazeSize size of the game board
@@ -30,11 +32,14 @@ public class SnakeGame {
      */
     public SnakeGame(Coordinate mazeSize, Coordinate head0, Direction tailDir0, Coordinate head1, Direction tailDir1, int size,
                      Bot bot0, Bot bot1) {
+        snakeSize = size;
         this.mazeSize = mazeSize;
         this.snake0 = new Snake(head0, tailDir0, size, mazeSize);
         this.snake1 = new Snake(head1, tailDir1, size, mazeSize);
         this.bot0 = bot0;
         this.bot1 = bot1;
+        this.name0 = bot0.getClass().getSimpleName();
+        this.name1 = bot1.getClass().getSimpleName();
 
         appleCoordinate = randomNonOccupiedCell();
     }
@@ -100,8 +105,7 @@ public class SnakeGame {
             fw.write(text + "\n");
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             try {
                 fw.close();
             } catch (IOException e) {
@@ -133,6 +137,7 @@ public class SnakeGame {
         boolean s1timeout = checkTimeout(startTime, endTime);
 
         output("snake0->" + d0 + ", snake1->" + d1);
+        output("Apples eaten: " + appleEaten0 + " - " + appleEaten1);
 
         //var grow = move % 3 == 2;
         boolean grow0 = snake0.getHead().moveTo(d0).equals(appleCoordinate);
@@ -143,9 +148,11 @@ public class SnakeGame {
         boolean s0dead = !snake0.moveTo(d0, grow0);
         boolean s1dead = !snake1.moveTo(d1, grow1);
 
-        if (wasGrow || appleCoordinate == null)
+        if (wasGrow || appleCoordinate == null) {
+            appleEaten0 = snake0.body.size() - snakeSize;
+            appleEaten1 = snake1.body.size() - snakeSize;
             appleCoordinate = randomNonOccupiedCell();
-
+        }
         s0dead |= snake0.headCollidesWith(snake1);
         s1dead |= snake1.headCollidesWith(snake0);
 
@@ -160,7 +167,8 @@ public class SnakeGame {
             String result = "0 - 0";
             if (s0dead ^ s1dead)
                 result = (s0dead ? 0 : 1) + " - " + (s1dead ? 0 : 1);
-
+            else if (s0dead && s1dead)
+                result = (appleEaten0 > appleEaten1 ? 1 : 0) + " - " + (appleEaten1 > appleEaten0 ? 1 : 0);
             gameResult += result;
         }
         return cont;

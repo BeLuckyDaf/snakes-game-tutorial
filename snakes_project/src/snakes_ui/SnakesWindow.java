@@ -45,12 +45,12 @@ public class SnakesWindow implements Runnable{
         running = true;
         canvas.repaint();
         while(running) {
-            long t = System.currentTimeMillis();
+            var t = System.currentTimeMillis();
 
             running = game.runOneStep();
             canvas.repaint();
 
-            long elapsed = System.currentTimeMillis() - t;
+            var elapsed = System.currentTimeMillis() - t;
 
             try {
                 Thread.sleep(Math.max(200 - elapsed, 0));
