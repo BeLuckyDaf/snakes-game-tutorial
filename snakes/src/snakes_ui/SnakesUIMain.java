@@ -102,7 +102,6 @@ public class SnakesUIMain {
 
                 buffer_player = bots.get(i);
                 buffer_player_number = playerNumber.get(i);
-
                 bots.set(i, t);
                 playerNumber.set(i, t_number);
             }
