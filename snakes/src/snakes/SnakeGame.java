@@ -92,7 +92,7 @@ public class SnakeGame {
      * @param text text that should be displayed
      */
     private void output(String text) {
-        System.out.println(text);
+        //System.out.println(text);
         FileWriter fw;
         try {
             fw = new FileWriter(LOG_FILE, true);
@@ -123,6 +123,7 @@ public class SnakeGame {
 
         // the first bot takes a decision of next move
         long startTime = System.currentTimeMillis();
+
         Direction d0 = bot0.chooseDirection(snake0, snake1, mazeSize, appleCoordinate);
         long endTime = System.currentTimeMillis();
 

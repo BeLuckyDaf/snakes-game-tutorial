@@ -15,8 +15,11 @@ public class SnakesMain {
         // n.strygin@innopolis.university
 
         ArrayList<Bot> bots = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            bots.add(new Bot_n_strygin());
+        for (int i = 0; i < 2; i++) {
+            bots.add(new BotVS());
+        }
+        for (int i = 0; i < 5; i++) {
+            bots.add(new Bot_D_Kabirov());
         }
 
         Scanner sc = new Scanner(System.in);

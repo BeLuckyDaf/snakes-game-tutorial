@@ -109,10 +109,10 @@ public class Bot_D_Kabirov implements Bot{
                     return d;
                 }
             }
-            System.out.println(found.x + " " + found.y);
+            //System.out.println(found.x + " " + found.y);
         }
         else {
-            System.out.println("No path to apple");
+            //System.out.println("No path to apple");
             for (Direction d : DIRECTIONS) {
                 Coordinate to = head.moveTo(d);
                 if (to.inBounds(mazeSize) && release[to.x][to.y] <= 1) {
@@ -127,7 +127,7 @@ public class Bot_D_Kabirov implements Bot{
                 }
             }
 
-            System.out.println("Let's die");
+            //System.out.println("Let's die");
             Random rnd = new Random();
             return DIRECTIONS[rnd.nextInt(DIRECTIONS.length)];
         }
@@ -141,7 +141,7 @@ public class Bot_D_Kabirov implements Bot{
 //            System.out.println();
 //        }
 
-        System.out.println("Impossible move");
+       // System.out.println("Impossible move");
 
         return Direction.LEFT;
     }
