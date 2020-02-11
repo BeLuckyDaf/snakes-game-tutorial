@@ -88,7 +88,6 @@ public class SnakesWindow implements Runnable{
     public void closeWindow() {
         frame.setVisible(false);
         frame.dispose();
-        //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 }
 

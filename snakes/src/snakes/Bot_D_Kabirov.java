@@ -60,7 +60,7 @@ public class Bot_D_Kabirov implements Bot{
         }
 
 
-        int time = snake.body.size() + 1; // + 1 should be removed!
+        int time = snake.body.size();
         for (Coordinate c : snake.body) {
             release[c.x][c.y] = time;
             time -= 1;
