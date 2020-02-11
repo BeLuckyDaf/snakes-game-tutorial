@@ -14,11 +14,9 @@ public class SnakesUIMain {
         ArrayList<Bot> bots = new ArrayList<>();
         bots.add(new BotVS());
         bots.add(new Bot_D_Kabirov());
-        bots.add(new Bot_n_strygin());
-        bots.add(new BotVS());
+        bots.add(new Bot_V_Vasilev());
 
         results_fw = new FileWriter(RESULTS_LOG_FILE, false);
-        //results_fw.flush();
 
         start_round_robin_tournament(bots);
 
