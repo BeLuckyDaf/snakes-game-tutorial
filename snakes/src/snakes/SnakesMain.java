@@ -71,7 +71,11 @@ public class SnakesMain {
                 Bot bot1 = bots.get(bots.size() - i - 1);
                 if (bot0 == null || bot1 == null) continue;
                 SnakeGame game = new SnakeGame(mazeSize, head0, tailDirection0, head1, tailDirection1, snakeSize, bot0, bot1);
-                game.run();
+                try {
+                    game.run();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 // add the result of the game to total points
                 points.set(playerNumber.get(i), points.get(playerNumber.get(i)) + Integer.parseInt(game.gameResult.substring(0, 1)));

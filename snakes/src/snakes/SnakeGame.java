@@ -19,6 +19,9 @@ public class SnakeGame {
     public int appleEaten1 = 0;
     private int snakeSize;
     public String name0,name1;
+
+    private SnakesRunner bot0_runner, bot1_runner;
+
     /**
      * Constructs SnakeGame class
      * @param mazeSize size of the game board
@@ -42,6 +45,9 @@ public class SnakeGame {
         this.name1 = bot1.getClass().getSimpleName();
 
         appleCoordinate = randomNonOccupiedCell();
+
+        this.bot0_runner = new SnakesRunner(bot0, snake0, snake1, mazeSize, appleCoordinate);
+        this.bot1_runner = new SnakesRunner(bot1, snake1, snake0, mazeSize, appleCoordinate);
     }
 
 
@@ -118,24 +124,41 @@ public class SnakeGame {
      * Run one game step, return whether to continue the game
      * @return whether to continue the game
      */
-    public boolean runOneStep() {
+    public boolean runOneStep() throws InterruptedException {
         output(toString());
 
         // the first bot takes a decision of next move
-        long startTime = System.currentTimeMillis();
 
-        Direction d0 = bot0.chooseDirection(snake0, snake1, mazeSize, appleCoordinate);
-        long endTime = System.currentTimeMillis();
+        bot0_runner.apple = appleCoordinate;
+        Thread bot0_thread = new Thread(bot0_runner);
 
+        bot0_thread.start();
+        bot0_thread.join(TIMEOUT_THRESHOLD * 1000);
+        boolean s0timeout = false;
+        if (bot0_thread.isAlive()) {
+            bot0_thread.interrupt();
+            s0timeout = true;
+            System.out.println(bot0.getClass().getSimpleName() + " took too long to make a decision");
+        }
 
-        boolean s0timeout = checkTimeout(startTime, endTime);
+        Direction d0 = bot0_runner.choosen_direction;
 
         // the second bot takes a decision of next move
-        startTime = System.currentTimeMillis();
-        Direction d1 = bot1.chooseDirection(snake1, snake0, mazeSize, appleCoordinate);
-        endTime = System.currentTimeMillis();
+        bot1_runner.apple = appleCoordinate;
+        Thread bot1_thread = new Thread(bot1_runner);
 
-        boolean s1timeout = checkTimeout(startTime, endTime);
+        bot1_thread.start();
+        bot1_thread.join(TIMEOUT_THRESHOLD * 1000);
+
+        boolean s1timeout = false;
+        if (bot1_thread.isAlive()) {
+            bot1_thread.interrupt();
+            s1timeout = true;
+            System.out.println(bot1.getClass().getSimpleName() + " took too long to make a decision");
+        }
+
+        Direction d1 = bot1_runner.choosen_direction;
+
 
         output("snake0->" + d0 + ", snake1->" + d1);
         output("Apples eaten: " + appleEaten0 + " - " + appleEaten1);
@@ -166,10 +189,15 @@ public class SnakeGame {
         if (!cont) {
             gameResult = "";
             String result = "0 - 0";
-            if (s0dead ^ s1dead)
+            if (s0timeout ^ s1timeout) // if one of the timeout
+                result = (s0timeout ? 0 : 1) + " - " + (s1timeout ? 0 : 1);
+            else if (s0timeout && s1timeout)
+                result = "0 - 0";
+            else if (s0dead ^ s1dead)
                 result = (s0dead ? 0 : 1) + " - " + (s1dead ? 0 : 1);
             else if (s0dead && s1dead)
                 result = (appleEaten0 > appleEaten1 ? 1 : 0) + " - " + (appleEaten1 > appleEaten0 ? 1 : 0);
+
             gameResult += result;
         }
         return cont;
@@ -178,7 +206,7 @@ public class SnakeGame {
     /**
      * Run the game
      */
-    public void run() {
+    public void run() throws InterruptedException {
         while (runOneStep())
             try {
                 Thread.sleep(1000);
