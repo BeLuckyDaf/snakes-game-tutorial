@@ -11,31 +11,31 @@ public class SnakesUIMain {
     private static FileWriter results_fw;
     /* UI Entry point */
     public static void main(String[] args) throws InterruptedException, IOException {
-        ArrayList<Bot> bots = new ArrayList<>();
-        bots.add(new BotVS());
-        bots.add(new Bot_D_Kabirov());
-        bots.add(new Bot_V_Vasilev());
+//        ArrayList<Bot> bots = new ArrayList<>();
+//        bots.add(new BotVS());
+//        bots.add(new Bot_D_Kabirov());
+//        bots.add(new Bot_V_Vasilev());
 
         results_fw = new FileWriter(RESULTS_LOG_FILE, false);
 
-        start_round_robin_tournament(bots);
+//        start_round_robin_tournament(bots);
 
         results_fw.close();
-//        SnakeGame game = new SnakeGame(
-//                new Coordinate(14, 14), // mazeSize
-//
-//
-//                new Coordinate(4, 6), // head0
-//                Direction.DOWN,         // tailDirection2
-//                new Coordinate(7, 7), // head1
-//                Direction.UP,           // tailDirection1
-//                3,                 // initial snake size
-//                new BotVS(),      // bot0
-//                new Bot_D_Kabirov()       // bot1
-//        );
-//
-//        SnakesWindow window = new SnakesWindow(game);
-//        new Thread(window).start();
+        SnakeGame game = new SnakeGame(
+                new Coordinate(14, 14), // mazeSize
+
+
+                new Coordinate(4, 6), // head0
+                Direction.DOWN,         // tailDirection2
+                new Coordinate(7, 7), // head1
+                Direction.UP,           // tailDirection1
+                3,                 // initial snake size
+                new Bot_D_Kabirov(),      // bot0
+                new Bot_V_Vasilev()       // bot1
+        );
+
+        SnakesWindow window = new SnakesWindow(game);
+        new Thread(window).start();
     }
 
     public static void start_round_robin_tournament(ArrayList<Bot> bots) throws InterruptedException, IOException {
