@@ -1,0 +1,13 @@
+BotVS vs Bot_n_strygin : 1 - 0
+Bot_D_Kabirov vs Bot_V_Vasilev : 1 - 0
+BotVS vs Bot_V_Vasilev : 1 - 0
+Bot_n_strygin vs Bot_D_Kabirov : 0 - 1
+BotVS vs Bot_D_Kabirov : 0 - 1
+Bot_V_Vasilev vs Bot_n_strygin : 0 - 1
+
+
+-------------------------------------------
+BotVS earned: 2
+Bot_D_Kabirov earned: 3
+Bot_V_Vasilev earned: 0
+Bot_n_strygin earned: 1

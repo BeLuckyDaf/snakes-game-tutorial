@@ -1,0 +1,6 @@
+BotVS vs. Bot_D_Kabirov: 0 - 2
+BotVS vs. Bot_V_Vasilev: 2 - 0
+BotVS vs. Bot_n_strygin: 2 - 0
+Bot_D_Kabirov vs. Bot_V_Vasilev: 1 - 1
+Bot_D_Kabirov vs. Bot_n_strygin: 2 - 0
+Bot_V_Vasilev vs. Bot_n_strygin: 0 - 1

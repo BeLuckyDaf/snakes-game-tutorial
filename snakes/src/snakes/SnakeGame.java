@@ -224,16 +224,17 @@ public class SnakeGame {
         output(gameResult);
     }
 
-    /**
-     * Check time spent by a snake for taking decision does not exceed the threshold
-     * @param startTime starting time of deciding next move
-     * @param endTime finish time of thinking
-     * @return True - if exceed
-     */
-    private boolean checkTimeout(long startTime, long endTime){
-        long duration = (endTime - startTime) / 1000;
-        return duration > TIMEOUT_THRESHOLD;
-    }
+    // no need anymore
+//    /**
+//     * Check time spent by a snake for taking decision does not exceed the threshold
+//     * @param startTime starting time of deciding next move
+//     * @param endTime finish time of thinking
+//     * @return True - if exceed
+//     */
+//    private boolean checkTimeout(long startTime, long endTime){
+//        long duration = (endTime - startTime) / 1000;
+//        return duration > TIMEOUT_THRESHOLD;
+//    }
 
     /**
      * Selects random non-occupied cell of maze
