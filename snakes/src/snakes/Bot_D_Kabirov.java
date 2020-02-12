@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class Bot_D_Kabirov implements Bot{
+public class Bot_D_Kabirov implements Bot {
     private final int USED_TRESHOLD = 2;
     private ArrayList<ArrayList<HashSet<Integer>>> used;
     private int release[][];

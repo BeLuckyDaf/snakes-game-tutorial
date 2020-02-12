@@ -51,7 +51,11 @@ public class SnakesWindow implements Runnable{
         while(running) {
             long t = System.currentTimeMillis();
 
-            running = game.runOneStep();
+            try {
+                running = game.runOneStep();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             canvas.repaint();
 
             long elapsed = System.currentTimeMillis() - t;
@@ -70,7 +74,7 @@ public class SnakesWindow implements Runnable{
                 int snake1_size = game.snake1.body.size();
                 game.gameResult = (snake0_size > snake1_size ? 1 : 0) + " - " + (snake1_size > snake0_size ? 1 : 0);
                 running = false;
-                System.out.println("Time Left\n");
+                System.out.println("Round time left (" + (TIME_LIMIT_PER_GAME / 1000) + "seconds) \n");
             }
         }
 

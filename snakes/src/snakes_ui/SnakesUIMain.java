@@ -11,10 +11,11 @@ public class SnakesUIMain {
     private static FileWriter results_fw;
     /* UI Entry point */
     public static void main(String[] args) throws InterruptedException, IOException {
-//        ArrayList<Bot> bots = new ArrayList<>();
-//        bots.add(new BotVS());
-//        bots.add(new Bot_D_Kabirov());
-//        bots.add(new Bot_V_Vasilev());
+        ArrayList<Bot> bots = new ArrayList<>();
+        bots.add(new BotVS());
+        bots.add(new Bot_D_Kabirov());
+        //bots.add(new Bot_V_Vasilev());
+        //bots.add(new Bot_n_strygin());
 
         results_fw = new FileWriter(RESULTS_LOG_FILE, false);
 
