@@ -189,10 +189,8 @@ public class SnakeGame {
         if (!cont) {
             gameResult = "";
             String result = "0 - 0";
-            if (s0timeout ^ s1timeout) // if one of the timeout
+            if (s0timeout || s1timeout) // if one of the timeout
                 result = (s0timeout ? 0 : 1) + " - " + (s1timeout ? 0 : 1);
-            else if (s0timeout && s1timeout)
-                result = "0 - 0";
             else if (s0dead ^ s1dead)
                 result = (s0dead ? 0 : 1) + " - " + (s1dead ? 0 : 1);
             else if (s0dead && s1dead)
