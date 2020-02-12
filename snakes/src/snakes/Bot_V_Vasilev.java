@@ -10,9 +10,9 @@ public class Bot_V_Vasilev implements Bot {
     private static final Direction left = Direction.LEFT;
     private static final Direction right = Direction.RIGHT;
     private static final Direction[] directions = new Direction[]{up, down, left, right};
-    private static long start;
+    private long start;
 
-    class Pair {
+    static class Pair {
         Direction direction;
         int steps;
 
@@ -77,6 +77,10 @@ public class Bot_V_Vasilev implements Bot {
 
         Coordinate head = snake.getHead();
         Direction[] safeMoves = safeDirections(snake, opponent, mazeSize, apple);
+
+        if (head.x == mazeSize.x / 2 && head.y == mazeSize.y / 2)
+            return safeMoves[0];
+
         Direction[] bestMoves = new Direction[4];
         short i = 0;
 
