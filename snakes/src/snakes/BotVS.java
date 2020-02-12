@@ -42,11 +42,23 @@ public class BotVS implements Bot {
         
         if (notLosing.length > 0) {
             // Choose the shortest path to the apple
-            Arrays.sort(notLosing, new SortByManhattanDistance(apple, head));
+            int myDistance = Manhattan(head, apple);
+            int opponentDistance = Manhattan(opponent.getHead(), apple);
+            Random random = new Random();
+            if (opponentDistance > myDistance || opponentDistance == myDistance && random.nextInt() % 2 == 0) {
+                Arrays.sort(notLosing, new SortByManhattanDistance(apple, head));
+            } else {
+                Coordinate opposite = new Coordinate(mazeSize.x - apple.x, mazeSize.y - apple.y);
+                Arrays.sort(notLosing, new SortByManhattanDistance(opposite, head));
+            }
             return notLosing[0];
         } else
             // We can't avoid losing here :shrug:
             return validMoves[0];
+    }
+
+    private static int Manhattan(Coordinate a, Coordinate b) {
+        return Math.abs(b.x - a.x) + Math.abs(b.y - a.y);
     }
 
     private static class SortByManhattanDistance implements Comparator<Direction> {
@@ -60,10 +72,6 @@ public class BotVS implements Bot {
 
         public int compare(Direction a, Direction b) {
             return Integer.compare(Manhattan(head.moveTo(a), target), Manhattan(head.moveTo(b), target));
-        }
-
-        private int Manhattan(Coordinate a, Coordinate b) {
-            return Math.abs(b.x - a.x) + Math.abs(b.y - a.y);
         }
     }
 }

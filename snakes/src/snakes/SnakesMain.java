@@ -15,8 +15,11 @@ public class SnakesMain {
         // n.strygin@innopolis.university
 
         ArrayList<Bot> bots = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            bots.add(new BotVS());
+        }
         for (int i = 0; i < 5; i++) {
-            bots.add(new Bot_n_strygin());
+            bots.add(new Bot_D_Kabirov());
         }
 
         Scanner sc = new Scanner(System.in);
@@ -37,7 +40,7 @@ public class SnakesMain {
     // by Danil Kabirov
     public static void start_round_robin_tournament(ArrayList<Bot> bots) {
         // init game settings
-        Coordinate mazeSize = new Coordinate(8, 8);
+        Coordinate mazeSize = new Coordinate(14, 14);
         Coordinate head0 = new Coordinate(2, 2);
         Direction tailDirection0 = Direction.DOWN;
         Coordinate head1 = new Coordinate(5, 5);
@@ -68,7 +71,11 @@ public class SnakesMain {
                 Bot bot1 = bots.get(bots.size() - i - 1);
                 if (bot0 == null || bot1 == null) continue;
                 SnakeGame game = new SnakeGame(mazeSize, head0, tailDirection0, head1, tailDirection1, snakeSize, bot0, bot1);
-                game.run();
+                try {
+                    game.run();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
                 // add the result of the game to total points
                 points.set(playerNumber.get(i), points.get(playerNumber.get(i)) + Integer.parseInt(game.gameResult.substring(0, 1)));
