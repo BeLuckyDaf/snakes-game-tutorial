@@ -159,6 +159,18 @@ public class SnakeGame {
 
         Direction d1 = bot1_runner.choosen_direction;
 
+        /*
+            Stopping game condition
+            - one of the snakes decides what it's next move too long
+         */
+        boolean timeout = s0timeout || s1timeout;
+        if (timeout) {
+            gameResult = "";
+            String result = (s0timeout ? 0 : 1) + " - " + (s1timeout ? 0 : 1);
+            gameResult += result;
+            return false;
+        }
+
 
         output("snake0->" + d0 + ", snake1->" + d1);
         output("Apples eaten: " + appleEaten0 + " - " + appleEaten1);
@@ -182,16 +194,13 @@ public class SnakeGame {
 
         /* stopping game condition
             - one of snakes collides with something
-            - one of the snakes decides what it's next move too long
         */
-        boolean cont = !(s0dead || s1dead || s0timeout || s1timeout);
+        boolean cont = !(s0dead || s1dead);
 
         if (!cont) {
             gameResult = "";
             String result = "0 - 0";
-            if (s0timeout || s1timeout) // if one of the timeout
-                result = (s0timeout ? 0 : 1) + " - " + (s1timeout ? 0 : 1);
-            else if (s0dead ^ s1dead)
+            if (s0dead ^ s1dead)
                 result = (s0dead ? 0 : 1) + " - " + (s1dead ? 0 : 1);
             else if (s0dead && s1dead)
                 result = (appleEaten0 > appleEaten1 ? 1 : 0) + " - " + (appleEaten1 > appleEaten0 ? 1 : 0);
