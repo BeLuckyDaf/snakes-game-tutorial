@@ -4,9 +4,9 @@ import javafx.util.Pair;
 
 import java.util.*;
 
-// Add TL
-// collide with oppoonent's head if i'm winning
-// implement hunt method
+// Add TL // DONE
+// collide with oppoonent's head if i'm winning // Maybe
+// implement hunt method // DONE
 // add path to queue bfs class // DONE
 // add order when put into the to queue according to Manhattan distance // DONE
 
@@ -26,8 +26,8 @@ public class Bot_D_Kabirov implements Bot {
 //    }
 
 
-    private final int HUNT_TRESHOLD = 10;
-    private final int USED_TRESHOLD = 3;
+    private int HUNT_THRESHOLD = 10;
+    private final int USED_THRESHOLD = 3;
     private HashSet[][] used;
     private int release[][];
     private Coordinate mazeSize;
@@ -38,42 +38,105 @@ public class Bot_D_Kabirov implements Bot {
     private LinkedList<ArrayList<Coordinate>> Q;
 
     private boolean dfs_used[][];
+    private boolean bfs_used[][];
     private int dist[][];
-    private int count[][];
     private int treshold_total = 0;
     private int hunt_used[][];
-    private Coordinate parent[][];
+    private ArrayList<Coordinate> parent[][];
+    private ArrayList<Coordinate> hunt_to[][];
     private LinkedList<Hunt_queue> hunt_Q;
+    private LinkedList<Prep_hunt_queue> prep_hunt_Q;
     private Coordinate hunt_found = null;
+    private int timeStart;
 
-    private int dfs(Coordinate cur, int time_travel, Coordinate par) {
-        if (dfs_used[cur.x][cur.y])
-            return 0;
-        dfs_used[cur.x][cur.y] = true;
+    class Prep_hunt_queue {
+        Coordinate cur;
+        int time_travel;
+        Coordinate par; // delete??
+        public Prep_hunt_queue(Coordinate cur, int time_travel, Coordinate par) {
+            this.cur = cur;
+            this.time_travel = time_travel;
+            this.par = par;
+        }
+    }
 
+    private void preparing_hunt_bfs(Coordinate cur, int time_travel, Coordinate par) {
+        if (bfs_used[cur.x][cur.y]) {
+                //if (dist[cur.x][cur.y] + 1 == dist[to.x][to.y]) {
+            if (parent[cur.x][cur.y] == null)
+                parent[cur.x][cur.y] = new ArrayList<>(); // no need actually
+            parent[cur.x][cur.y].add(par);
+
+            if (par != null) {
+                if (hunt_to[par.x][par.y] == null)
+                    hunt_to[par.x][par.y] = new ArrayList<>();
+                hunt_to[par.x][par.y].add(cur);
+            }
+
+            return;
+        }
+        bfs_used[cur.x][cur.y] = true;
         dist[cur.x][cur.y] = time_travel;
-        parent[cur.x][cur.y] = par;
-        if (time_travel == HUNT_TRESHOLD) {
-            count[cur.x][cur.y] = 1;
+
+        if (parent[cur.x][cur.y] == null)
+            parent[cur.x][cur.y] = new ArrayList<>();
+        parent[cur.x][cur.y].add(par);
+
+        if (par != null) {
+            if (hunt_to[par.x][par.y] == null)
+                hunt_to[par.x][par.y] = new ArrayList<>();
+            hunt_to[par.x][par.y].add(cur);
+        }
+
+
+        if (time_travel == HUNT_THRESHOLD) {
             treshold_total += 1;
-            return 1;
+            return;
         }
 
         for (Direction d : Direction.values()) {
             Coordinate to = cur.moveTo(d);
-            if (to.inBounds(mazeSize) && !dfs_used[to.x][to.y] && release[to.x][to.y] <= time_travel + 1) {
-                count[cur.x][cur.y] += dfs(to, time_travel + 1, cur);
+            if (to.inBounds(mazeSize) && release[to.x][to.y] <= time_travel + 1) {
+                if (!bfs_used[to.x][to.y]) {
+                    prep_hunt_Q.add(new Prep_hunt_queue(to, time_travel + 1, cur));
+                }
             }
         }
-        return count[cur.x][cur.y];
     }
 
-    private boolean parents_alive(Coordinate cur, HashSet<Coordinate> killed) {
+    private boolean path_to_root(Coordinate cur, HashSet<Coordinate> killed, Coordinate excl) {
         if (cur == null)
             return true;
-        if (killed.contains(cur))
+        if (killed.contains(cur) || cur.equals(excl))
             return false;
-        return parents_alive(parent[cur.x][cur.y], killed);
+
+        if (parent[cur.x][cur.y] != null) {
+            for (Coordinate to : parent[cur.x][cur.y]) {
+                if (path_to_root(to, killed, excl))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private HashSet<Coordinate> tree_killed_used;
+
+    private int tree_killed(Coordinate cur, HashSet<Coordinate> killed) {//can be improved, but difficult
+        if (tree_killed_used.contains(cur))
+            return 0;
+        tree_killed_used.add(cur);
+        if (killed.contains(cur))
+            return 0;
+        if (dist[cur.x][cur.y] == HUNT_THRESHOLD)
+            return 1;
+        int ans = 0;
+        if (hunt_to[cur.x][cur.y] != null) {
+            for (Coordinate to : hunt_to[cur.x][cur.y]) {
+                if (!path_to_root(to, killed, cur))
+                    ans += tree_killed(to, killed);
+            }
+        }
+        return ans;
     }
 
     class Hunt_queue {
@@ -89,13 +152,14 @@ public class Bot_D_Kabirov implements Bot {
     }
 
     private void hunt_bfs(Coordinate cur, ArrayList<Coordinate> path, int left, HashSet<Coordinate> killed) {
-        if (hunt_used[cur.x][cur.y] <= left)
+        if (hunt_used[cur.x][cur.y] == 1)
             return;
-        hunt_used[cur.x][cur.y] = left;
+        hunt_used[cur.x][cur.y] = 1;
 
         if (left <= 0) {
-            System.out.println("FOUND A WAY TO HUNT");
-            found = path.get(0);
+            //System.out.println("FOUND A WAY TO HUNT" + left);
+            hunt_found = path.get(0);
+            //System.out.println(hunt_found.x + " " + hunt_found.y);
             return;
         }
 
@@ -107,10 +171,11 @@ public class Bot_D_Kabirov implements Bot {
                 int left_to = left;
                 if (time_travel < dist[to.x][to.y] &&
                 dist[to.x][to.y] - time_travel < snake.body.size() &&
-                parents_alive(to, killed)) {
-                    left_to -= count[to.x][to.y];
+                path_to_root(to, killed, null) && !killed.contains(to)) {
+                    tree_killed_used.clear();
+                    left_to -= tree_killed(to, killed);
                 }
-                if (hunt_used[to.x][to.y] > left_to) {
+                if (hunt_used[to.x][to.y] == 0) {
                     to_add.add(new Pair<>(to, left_to));
                 }
             }
@@ -134,18 +199,33 @@ public class Bot_D_Kabirov implements Bot {
     // if dist==1 don't go
     private Direction hunt() { // boolean?
         //release should be set
-        dfs(opponent.getHead(), 0, null);
+
+        hunt_found = null;
+        treshold_total = 0;
+
+
+        prep_hunt_Q = new LinkedList<>();
+        prep_hunt_Q.add(new Prep_hunt_queue(opponent.getHead(), 0, null));
+        //fill the Q
+        while(!prep_hunt_Q.isEmpty()) {
+            Prep_hunt_queue cur = prep_hunt_Q.getFirst();
+            prep_hunt_Q.removeFirst();
+            preparing_hunt_bfs(cur.cur, cur.time_travel, cur.par);
+        }
+
+
 
         if (treshold_total == 0) {
             // Follow the tail?
-            System.out.println("Now I should follow the tail");
+            //System.out.println("Now I should follow the tail");
             return null;
         }
         else {
+            //System.out.println("total: " + treshold_total);
 
             for (int i = 0; i < mazeSize.x; i++)
                 for(int j = 0; j < mazeSize.y; j++)
-                    hunt_used[i][j] = 10000000; // infinity
+                    hunt_used[i][j] = 0; // infinity
 
             hunt_Q = new LinkedList<>();
             for (Direction d : Direction.values()) {
@@ -158,8 +238,10 @@ public class Bot_D_Kabirov implements Bot {
                     // check if killed
                     if (1 < dist[to.x][to.y] &&
                     dist[to.x][to.y] - 1 < snake.body.size()) {
+                        tree_killed_used.clear();
+                        cnt_killed += tree_killed(to, killed);
+                        //System.out.println(to.x + " " + to.y + " : " + cnt_killed);
                         killed.add(to);
-                        cnt_killed += count[to.x][to.y];
                     }
                     hunt_Q.add(new Hunt_queue(to_list, treshold_total - cnt_killed, killed));
                 }
@@ -168,33 +250,55 @@ public class Bot_D_Kabirov implements Bot {
             while (!hunt_Q.isEmpty() && hunt_found == null) {
                 Hunt_queue cur = hunt_Q.getFirst();
                 hunt_Q.removeFirst();
+                //System.out.println(cur.path.get(cur.path.size() - 1).x + " " + cur.path.get(cur.path.size() - 1).y + " " + cur.tresholds_left);
                 hunt_bfs(cur.path.get(cur.path.size() - 1), cur.path, cur.tresholds_left, cur.killed);
             }
 
             if (hunt_found != null) {
-                System.out.println("HUNTING!!!");
+
+                System.out.println("release:");
+//                for (int y = mazeSize.y - 1; y >= 0; y--) {
+//                    for (int x = 0; x < mazeSize.x; x++) {
+//                        System.out.print(release[x][y] + " ");
+//                    }
+//                    System.out.println();
+//                }
+//
+//                System.out.println("\ndist:");
+//                for (int y = mazeSize.y - 1; y >= 0; y--) {
+//                    for (int x = 0; x < mazeSize.x; x++) {
+//                        System.out.print(dist[x][y] + " ");
+//                    }
+//                    System.out.println();
+//                }
+
+
+                //System.out.println("HUNTING!!!");
                 for (Direction d : Direction.values()) {
                     if (snake.getHead().moveTo(d).equals(hunt_found)) {
                         return d;
                     }
                 }
-                System.out.println("Impossible stuff\n");
+                //System.out.println("Impossible stuff\n");
                 return null;
             }
             else {
-                System.out.println("No hunting(");
+               // System.out.println("No hunting(");
                 return null;
             }
         }
     }
 
     private void bfs(Coordinate cur, ArrayList<Coordinate> path) {
+        if (System.currentTimeMillis() - this.timeStart >= 900) {
+            return;
+        }
         //System.out.println(cur.x + " " + cur.y);
         if (cur.equals(apple)) {
             found = path.get(0);
             return;
         }
-        if (used[cur.x][cur.y].size() >= USED_TRESHOLD || used[cur.x][cur.y].contains(path.size()))
+        if (used[cur.x][cur.y].size() >= USED_THRESHOLD || used[cur.x][cur.y].contains(path.size()))
             return;
 
         used[cur.x][cur.y].add(path.size());
@@ -207,7 +311,7 @@ public class Bot_D_Kabirov implements Bot {
                     (indof == -1 || snake.body.size() <= (path.size() - indof)) &&
                     path.size() + 1 >= release[to.x][to.y] &&
                     !used[to.x][to.y].contains(path.size()) &&
-                    used[to.x][to.y].size() < USED_TRESHOLD) {
+                    used[to.x][to.y].size() < USED_THRESHOLD) {
                 to_add.add(to);
             }
 
@@ -222,19 +326,23 @@ public class Bot_D_Kabirov implements Bot {
 
     @Override
     public Direction chooseDirection(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple) {
+        this.timeStart = (int) System.currentTimeMillis();
         this.mazeSize = mazeSize;
         this.apple = apple;
         this.found = null;
         this.snake = snake;
         this.opponent = opponent;
         this.dfs_used = new boolean[mazeSize.x + 1][mazeSize.y + 1];
+        this.bfs_used = new boolean[mazeSize.x + 1][mazeSize.y + 1];
         this.dist = new int[mazeSize.x + 1][mazeSize.y + 1];
-        this.count = new int[mazeSize.x + 1][mazeSize.y + 1];
-        this.parent = new Coordinate[mazeSize.x + 1][mazeSize.y + 1];
+      //  this.count = new int[mazeSize.x + 1][mazeSize.y + 1];
+        this.parent = new ArrayList[mazeSize.x + 1][mazeSize.y + 1];
+        this.hunt_to = new ArrayList[mazeSize.x + 1][mazeSize.y + 1];
         this.hunt_used = new int[mazeSize.x + 1][mazeSize.y + 1];
+        this.HUNT_THRESHOLD = 10;//Math.min(opponent.body.size() + 1, 10);
+        this.tree_killed_used = new HashSet<>();
 
         used = new HashSet[mazeSize.x][mazeSize.y];
-        //map[0][0] = new HashMap<String, Integer>(5);
         release = new int[mazeSize.x + 5][mazeSize.y + 5];
 
         for (int i = 0; i < mazeSize.x; i++)
