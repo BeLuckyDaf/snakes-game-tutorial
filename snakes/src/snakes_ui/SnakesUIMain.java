@@ -13,10 +13,10 @@ public class SnakesUIMain {
     /* UI Entry point */
     public static void main(String[] args) throws InterruptedException, IOException {
         ArrayList<Bot> bots = new ArrayList<>();
-        bots.add(new BotVS());
+//        bots.add(new BotVS());
         bots.add(new Bot_D_Kabirov());
         bots.add(new Bot_V_Vasilev());
-        bots.add(new Bot_n_strygin());
+//        bots.add(new Bot_n_strygin());
 
         start_tournament_n_times(2, bots);
     }
@@ -33,6 +33,7 @@ public class SnakesUIMain {
         results_fw = new FileWriter("snakes\\tournamentResultsLogs\\Total_results.txt", false);
         for (int i = 0; i < bots.size(); i++)
             for (int j = i + 1; j < bots.size(); j++) {
+                if (bots.get(i) == null || bots.get(j) == null) continue;
                 System.out.println("\n" + bots.get(i).getClass().getSimpleName() + " vs. " + bots.get(j).getClass().getSimpleName() + ": " + total_results_table[i][j] + " - " + total_results_table[j][i]);
                 results_fw.write(bots.get(i).getClass().getSimpleName() + " vs. " + bots.get(j).getClass().getSimpleName() + ": " + total_results_table[i][j] + " - " + total_results_table[j][i] + "\n");
             }
