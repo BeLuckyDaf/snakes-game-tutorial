@@ -121,7 +121,7 @@ public class Bot_D_Kabirov implements Bot {
 
     private HashSet<Coordinate> tree_killed_used;
 
-    private int tree_killed(Coordinate cur, HashSet<Coordinate> killed) {//can be improved, but difficult
+    private int tree_killed(Coordinate cur, HashSet<Coordinate> killed, Coordinate excl) {//can be improved, but difficult
         if (tree_killed_used.contains(cur))
             return 0;
         tree_killed_used.add(cur);
@@ -132,8 +132,8 @@ public class Bot_D_Kabirov implements Bot {
         int ans = 0;
         if (hunt_to[cur.x][cur.y] != null) {
             for (Coordinate to : hunt_to[cur.x][cur.y]) {
-                if (!path_to_root(to, killed, cur))
-                    ans += tree_killed(to, killed);
+                if (!path_to_root(to, killed, excl))
+                    ans += tree_killed(to, killed, excl);
             }
         }
         return ans;
@@ -173,7 +173,7 @@ public class Bot_D_Kabirov implements Bot {
                 dist[to.x][to.y] - time_travel < snake.body.size() &&
                 path_to_root(to, killed, null) && !killed.contains(to)) {
                     tree_killed_used.clear();
-                    left_to -= tree_killed(to, killed);
+                    left_to -= tree_killed(to, killed, to);
                 }
                 if (hunt_used[to.x][to.y] == 0) {
                     to_add.add(new Pair<>(to, left_to));
@@ -214,7 +214,6 @@ public class Bot_D_Kabirov implements Bot {
         }
 
 
-
         if (treshold_total == 0) {
             // Follow the tail?
             //System.out.println("Now I should follow the tail");
@@ -239,7 +238,7 @@ public class Bot_D_Kabirov implements Bot {
                     if (1 < dist[to.x][to.y] &&
                     dist[to.x][to.y] - 1 < snake.body.size()) {
                         tree_killed_used.clear();
-                        cnt_killed += tree_killed(to, killed);
+                        cnt_killed += tree_killed(to, killed, to);
                         //System.out.println(to.x + " " + to.y + " : " + cnt_killed);
                         killed.add(to);
                     }
@@ -256,7 +255,8 @@ public class Bot_D_Kabirov implements Bot {
 
             if (hunt_found != null) {
 
-                System.out.println("release:");
+
+//                System.out.println("release:");
 //                for (int y = mazeSize.y - 1; y >= 0; y--) {
 //                    for (int x = 0; x < mazeSize.x; x++) {
 //                        System.out.print(release[x][y] + " ");
@@ -271,7 +271,6 @@ public class Bot_D_Kabirov implements Bot {
 //                    }
 //                    System.out.println();
 //                }
-
 
                 //System.out.println("HUNTING!!!");
                 for (Direction d : Direction.values()) {
@@ -418,6 +417,8 @@ public class Bot_D_Kabirov implements Bot {
                     return d;
                 }
             }
+
+            // can add here one more bfs without a fear of colliding
 
             // If no way, try to collide with other snake's head
             for (Direction d : Direction.values()) {

@@ -17,7 +17,6 @@ public class SnakesUIMain {
         bots.add(new botVV());
         bots.add(new Bot_D_Kabirov());
         bots.add(new Bot_n_strygin());
-        bots.add(new Bot_A_Zhuchkov());
 
         start_tournament_n_times(2, bots);
     }
@@ -49,6 +48,11 @@ public class SnakesUIMain {
         Coordinate head1 = new Coordinate(5, 5);
         Direction tailDirection1 = Direction.UP;
         int snakeSize = 3;
+//        Coordinate head0 = new Coordinate(0, 3);
+//        Direction tailDirection0 = Direction.DOWN;
+//        Coordinate head1 = new Coordinate(1, 5);
+//        Direction tailDirection1 = Direction.DOWN;
+//        int snakeSize = 4;
 
         // a number assiciated to each player in bots ArrayList
         ArrayList<Integer> playerNumber = new ArrayList<>();
