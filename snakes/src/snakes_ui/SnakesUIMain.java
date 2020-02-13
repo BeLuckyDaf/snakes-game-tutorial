@@ -17,6 +17,7 @@ public class SnakesUIMain {
         bots.add(new botVV());
         bots.add(new Bot_D_Kabirov());
         bots.add(new Bot_n_strygin());
+        bots.add(new Bot_A_Zhuchkov());
 
         start_tournament_n_times(2, bots);
     }

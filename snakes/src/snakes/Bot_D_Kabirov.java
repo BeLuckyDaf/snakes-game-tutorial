@@ -4,9 +4,9 @@ import javafx.util.Pair;
 
 import java.util.*;
 
-// Add TL // DONE
-// collide with oppoonent's head if i'm winning // Maybe
-// implement hunt method // DONE
+// Add TL
+// collide with oppoonent's head if i'm winning
+// implement hunt method
 // add path to queue bfs class // DONE
 // add order when put into the to queue according to Manhattan distance // DONE
 
@@ -47,7 +47,7 @@ public class Bot_D_Kabirov implements Bot {
     private LinkedList<Hunt_queue> hunt_Q;
     private LinkedList<Prep_hunt_queue> prep_hunt_Q;
     private Coordinate hunt_found = null;
-    private int timeStart;
+    private long timeStart;
 
     class Prep_hunt_queue {
         Coordinate cur;
@@ -290,7 +290,7 @@ public class Bot_D_Kabirov implements Bot {
     }
 
     private void bfs(Coordinate cur, ArrayList<Coordinate> path) {
-        if (System.currentTimeMillis() - this.timeStart >= 900) {
+        if (System.currentTimeMillis() - this.timeStart >= 950) {
             return;
         }
         //System.out.println(cur.x + " " + cur.y);
@@ -326,7 +326,7 @@ public class Bot_D_Kabirov implements Bot {
 
     @Override
     public Direction chooseDirection(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple) {
-        this.timeStart = (int) System.currentTimeMillis();
+        this.timeStart = System.currentTimeMillis();
         this.mazeSize = mazeSize;
         this.apple = apple;
         this.found = null;
@@ -339,7 +339,7 @@ public class Bot_D_Kabirov implements Bot {
         this.parent = new ArrayList[mazeSize.x + 1][mazeSize.y + 1];
         this.hunt_to = new ArrayList[mazeSize.x + 1][mazeSize.y + 1];
         this.hunt_used = new int[mazeSize.x + 1][mazeSize.y + 1];
-        this.HUNT_THRESHOLD = 10;//Math.min(opponent.body.size() + 1, 10);
+        this.HUNT_THRESHOLD = Math.min(opponent.body.size() + 1, 10);
         this.tree_killed_used = new HashSet<>();
 
         used = new HashSet[mazeSize.x][mazeSize.y];
