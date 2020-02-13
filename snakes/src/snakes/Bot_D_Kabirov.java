@@ -2,43 +2,220 @@ package snakes;
 
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
+
+// Add TL
+// collide with oppoonent's head if i'm winning
+// implement hunt method
+// add path to queue bfs class // DONE
+// add order when put into the to queue according to Manhattan distance // DONE
 
 public class Bot_D_Kabirov implements Bot {
-    private final int USED_TRESHOLD = 2;
-    private ArrayList<ArrayList<HashSet<Integer>>> used;
+
+//    private class queue_instance {
+//        Coordinate cur;
+//        //Coordinate from; // path is enough //
+//        //int travel_time; // path is enough // size of path
+//        Coordinate start;
+//        HashSet<Coordinate> path;
+//        public queue_instance(Coordinate cur, Coordinate start, HashSet<Coordinate> path) {
+//            this.cur = cur;
+//            this.start = start;
+//            this.path = (HashSet<Coordinate>)(path.clone());
+//        }
+//    }
+
+
+    private final int HUNT_TRESHOLD = 10;
+    private final int USED_TRESHOLD = 3;
+    private HashSet[][] used;
     private int release[][];
-    private static final Direction[] DIRECTIONS = new Direction[] {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
     private Coordinate mazeSize;
     private Coordinate apple;
     private Coordinate found = null;
-    private LinkedList<Pair<Pair<Coordinate, Coordinate>, Pair<Integer, Coordinate>>> Q;
+    private Snake snake;
+    private Snake opponent;
+    private LinkedList<ArrayList<Coordinate>> Q;
 
-    private void bfs(Coordinate cur, Coordinate from, int travel_time, Coordinate start) {
-        //System.out.println(cur.x + " " + cur.y);
-        if (cur.equals(apple)) {
-            found = start;
+    private boolean dfs_used[][];
+    private int dist[][];
+    private int count[][];
+    private int treshold_total = 0;
+    private int hunt_used[][];
+    private Coordinate parent[][];
+    private LinkedList<Hunt_queue> hunt_Q;
+    private Coordinate hunt_found = null;
+
+    private int dfs(Coordinate cur, int time_travel, Coordinate par) {
+        if (dfs_used[cur.x][cur.y])
+            return 0;
+        dfs_used[cur.x][cur.y] = true;
+
+        dist[cur.x][cur.y] = time_travel;
+        parent[cur.x][cur.y] = par;
+        if (time_travel == HUNT_TRESHOLD) {
+            count[cur.x][cur.y] = 1;
+            treshold_total += 1;
+            return 1;
+        }
+
+        for (Direction d : Direction.values()) {
+            Coordinate to = cur.moveTo(d);
+            if (to.inBounds(mazeSize) && !dfs_used[to.x][to.y] && release[to.x][to.y] <= time_travel + 1) {
+                count[cur.x][cur.y] += dfs(to, time_travel + 1, cur);
+            }
+        }
+        return count[cur.x][cur.y];
+    }
+
+    private boolean parents_alive(Coordinate cur, HashSet<Coordinate> killed) {
+        if (cur == null)
+            return true;
+        if (killed.contains(cur))
+            return false;
+        return parents_alive(parent[cur.x][cur.y], killed);
+    }
+
+    class Hunt_queue {
+        ArrayList<Coordinate> path;
+        int tresholds_left;
+        HashSet<Coordinate> killed;
+
+        public Hunt_queue(ArrayList<Coordinate> path, int tresholds_left, HashSet<Coordinate> killed) {
+            this.path = path;
+            this.tresholds_left = tresholds_left;
+            this.killed = killed;
+        }
+    }
+
+    private void hunt_bfs(Coordinate cur, ArrayList<Coordinate> path, int left, HashSet<Coordinate> killed) {
+        if (hunt_used[cur.x][cur.y] <= left)
+            return;
+        hunt_used[cur.x][cur.y] = left;
+
+        if (left <= 0) {
+            System.out.println("FOUND A WAY TO HUNT");
+            found = path.get(0);
             return;
         }
-        if (used.get(cur.x).get(cur.y).size() >= USED_TRESHOLD)
+
+        ArrayList<Pair<Coordinate, Integer>> to_add = new ArrayList<Pair<Coordinate, Integer>>();
+        int time_travel = path.size() + 1;
+        for (Direction d : Direction.values()) {
+            Coordinate to = cur.moveTo(d);
+            if (to.inBounds(mazeSize) && release[to.x][to.y] <= time_travel) {
+                int left_to = left;
+                if (time_travel < dist[to.x][to.y] &&
+                dist[to.x][to.y] - time_travel < snake.body.size() &&
+                parents_alive(to, killed)) {
+                    left_to -= count[to.x][to.y];
+                }
+                if (hunt_used[to.x][to.y] > left_to) {
+                    to_add.add(new Pair<>(to, left_to));
+                }
+            }
+        }
+
+        to_add.sort((a, b) -> (a.getValue() - b.getValue()));
+        for (int i = 0; i < to_add.size(); i++) {
+            Coordinate to = to_add.get(i).getKey();
+            int to_left = to_add.get(i).getValue();
+            HashSet<Coordinate> to_killed = (HashSet<Coordinate>)(killed.clone());
+            ArrayList<Coordinate> to_path = (ArrayList<Coordinate>)(path.clone());
+            to_path.add(to);
+            if (to_left < left) {// killed
+                to_killed.add(to);
+            }
+
+            hunt_Q.add(new Hunt_queue(to_path, to_left, to_killed));
+        }
+    }
+
+    // if dist==1 don't go
+    private Direction hunt() { // boolean?
+        //release should be set
+        dfs(opponent.getHead(), 0, null);
+
+        if (treshold_total == 0) {
+            // Follow the tail?
+            System.out.println("Now I should follow the tail");
+            return null;
+        }
+        else {
+
+            for (int i = 0; i < mazeSize.x; i++)
+                for(int j = 0; j < mazeSize.y; j++)
+                    hunt_used[i][j] = 10000000; // infinity
+
+            hunt_Q = new LinkedList<>();
+            for (Direction d : Direction.values()) {
+                Coordinate to = snake.getHead().moveTo(d);
+                if (to.inBounds(mazeSize) && release[to.x][to.y] <= 1) {
+                    ArrayList<Coordinate> to_list = new ArrayList<>();
+                    to_list.add(to);
+                    int cnt_killed = 0;
+                    HashSet<Coordinate> killed = new HashSet<>();
+                    // check if killed
+                    if (1 < dist[to.x][to.y] &&
+                    dist[to.x][to.y] - 1 < snake.body.size()) {
+                        killed.add(to);
+                        cnt_killed += count[to.x][to.y];
+                    }
+                    hunt_Q.add(new Hunt_queue(to_list, treshold_total - cnt_killed, killed));
+                }
+            }
+
+            while (!hunt_Q.isEmpty() && hunt_found == null) {
+                Hunt_queue cur = hunt_Q.getFirst();
+                hunt_Q.removeFirst();
+                hunt_bfs(cur.path.get(cur.path.size() - 1), cur.path, cur.tresholds_left, cur.killed);
+            }
+
+            if (hunt_found != null) {
+                System.out.println("HUNTING!!!");
+                for (Direction d : Direction.values()) {
+                    if (snake.getHead().moveTo(d).equals(hunt_found)) {
+                        return d;
+                    }
+                }
+                System.out.println("Impossible stuff\n");
+                return null;
+            }
+            else {
+                System.out.println("No hunting(");
+                return null;
+            }
+        }
+    }
+
+    private void bfs(Coordinate cur, ArrayList<Coordinate> path) {
+        //System.out.println(cur.x + " " + cur.y);
+        if (cur.equals(apple)) {
+            found = path.get(0);
+            return;
+        }
+        if (used[cur.x][cur.y].size() >= USED_TRESHOLD || used[cur.x][cur.y].contains(path.size()))
             return;
 
-        used.get(cur.x).get(cur.y).add(travel_time);
+        used[cur.x][cur.y].add(path.size());
 
-        for (Direction d : DIRECTIONS) {
+        for (Direction d : Direction.values()) {
             Coordinate to = cur.moveTo(d);
-//            System.out.println(to.inBounds(mazeSize));
-//            System.out.println(!to.equals(from));
-//            System.out.println(travel_time + 1 >= release[to.x][to.y]);
-//            System.out.println(used.get(to.x).get(to.y).size() < USED_TRESHOLD);
+            ArrayList<Coordinate> to_add = new ArrayList<>();
+            int indof = path.indexOf(to);
             if (to.inBounds(mazeSize) &&
-                    !to.equals(from) &&
-                    travel_time + 1 >= release[to.x][to.y] &&
-                    used.get(to.x).get(to.y).size() < USED_TRESHOLD) {
-                Q.add(new Pair<>(new Pair<>(to, cur), new Pair<>(travel_time + 1, start)));
+                    (indof == -1 || snake.body.size() <= (path.size() - indof)) &&
+                    path.size() + 1 >= release[to.x][to.y] &&
+                    !used[to.x][to.y].contains(path.size()) &&
+                    used[to.x][to.y].size() < USED_TRESHOLD) {
+                to_add.add(to);
+            }
+
+            to_add.sort(Comparator.comparingInt(a -> Manhattan(a, apple)));
+            for (int i = 0; i < to_add.size(); i++) {
+                ArrayList<Coordinate> to_list = (ArrayList<Coordinate>)(path.clone());
+                to_list.add(to_add.get(i));
+                Q.add(to_list);
             }
         }
     }
@@ -48,16 +225,21 @@ public class Bot_D_Kabirov implements Bot {
         this.mazeSize = mazeSize;
         this.apple = apple;
         this.found = null;
-        used = new ArrayList<>();
+        this.snake = snake;
+        this.opponent = opponent;
+        this.dfs_used = new boolean[mazeSize.x + 1][mazeSize.y + 1];
+        this.dist = new int[mazeSize.x + 1][mazeSize.y + 1];
+        this.count = new int[mazeSize.x + 1][mazeSize.y + 1];
+        this.parent = new Coordinate[mazeSize.x + 1][mazeSize.y + 1];
+        this.hunt_used = new int[mazeSize.x + 1][mazeSize.y + 1];
+
+        used = new HashSet[mazeSize.x][mazeSize.y];
+        //map[0][0] = new HashMap<String, Integer>(5);
         release = new int[mazeSize.x + 5][mazeSize.y + 5];
 
-        used.clear();
-
-        for (int i = 0; i < mazeSize.x; i++) {
-            used.add(new ArrayList<>());
+        for (int i = 0; i < mazeSize.x; i++)
             for (int j = 0; j < mazeSize.y; j++)
-                used.get(i).add(new HashSet<>());
-        }
+                used[i][j] = new HashSet();
 
 
         int time = snake.body.size();
@@ -66,19 +248,11 @@ public class Bot_D_Kabirov implements Bot {
             time -= 1;
         }
 
-
         int delt = 0;
-
-
-        for (Direction d : DIRECTIONS) {
+        for (Direction d : Direction.values()) {
             Coordinate to = opponent.getHead().moveTo(d);
-            if (to.inBounds(mazeSize)) {
-                if (opponent.elements.size() >= snake.elements.size()) { // remove = if you agree on a draw
-                    release[to.x][to.y] = opponent.body.size() + 1;
-                }
-                if (to.equals(apple)) // if the opponent will grow now
-                    delt = 1;
-            }
+            if (to.equals(apple)) // if the opponent will grow now
+                delt = 1;
         }
 
         time = opponent.body.size() + delt;
@@ -87,40 +261,58 @@ public class Bot_D_Kabirov implements Bot {
             time -= 1;
         }
 
+        Direction hunt_dir = hunt();
+
+        if (hunt_dir != null) {
+            return hunt_dir;
+        }
+
+        if (opponent.elements.size() >= snake.elements.size()) { // remove = if you agree on a draw
+            for (Direction d : Direction.values()) {
+                Coordinate to = opponent.getHead().moveTo(d);
+                if (to.inBounds(mazeSize)) {
+                    release[to.x][to.y] = opponent.body.size() + 1;
+                }
+            }
+        }
+
 
         Q = new LinkedList<>();
         Coordinate head = snake.getHead();
-        for (Direction d : DIRECTIONS) {
+        for (Direction d : Direction.values()) {
             Coordinate to = head.moveTo(d);
             if (to.inBounds(mazeSize) && release[to.x][to.y] <= 1) {
-                Q.add(new Pair<>(new Pair<>(to, head), new Pair<>(1, to)));
+                ArrayList<Coordinate> to_list = new ArrayList<>();
+                to_list.add(to);
+                Q.add(to_list);
             }
         }
 
         while (!Q.isEmpty() && found == null) {
-            Pair<Pair<Coordinate, Coordinate>, Pair<Integer, Coordinate>> cur = Q.getFirst();
+            ArrayList<Coordinate> cur_path = Q.getFirst();
             Q.removeFirst();
-            bfs(cur.getKey().getKey(), cur.getKey().getValue(), cur.getValue().getKey(), cur.getValue().getValue());
+            bfs(cur_path.get(cur_path.size() - 1), cur_path);
         }
 
         if (found != null) {
-            for (Direction d : DIRECTIONS) {
+            for (Direction d : Direction.values()) {
                 if (head.moveTo(d).equals(found)) {
                     return d;
                 }
             }
             //System.out.println(found.x + " " + found.y);
         }
-        else {
+        else { // CHECKED TILL NOW
             //System.out.println("No path to apple");
-            for (Direction d : DIRECTIONS) {
+            for (Direction d : Direction.values()) {
                 Coordinate to = head.moveTo(d);
                 if (to.inBounds(mazeSize) && release[to.x][to.y] <= 1) {
                     return d;
                 }
             }
 
-            for (Direction d : DIRECTIONS) {
+            // If no way, try to collide with other snake's head
+            for (Direction d : Direction.values()) {
                 Coordinate to = head.moveTo(d);
                 if (to.inBounds(mazeSize) && !snake.elements.contains(to) && !opponent.elements.contains(to)) {
                     return d;
@@ -129,7 +321,7 @@ public class Bot_D_Kabirov implements Bot {
 
             //System.out.println("Let's die");
             Random rnd = new Random();
-            return DIRECTIONS[rnd.nextInt(DIRECTIONS.length)];
+            return Direction.values()[rnd.nextInt(Direction.values().length)];
         }
 
 
@@ -144,5 +336,11 @@ public class Bot_D_Kabirov implements Bot {
        // System.out.println("Impossible move");
 
         return Direction.LEFT;
+    }
+
+
+
+    private static int Manhattan(Coordinate a, Coordinate b) {
+        return Math.abs(b.x - a.x) + Math.abs(b.y - a.y);
     }
 }
