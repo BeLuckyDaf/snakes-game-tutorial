@@ -14,8 +14,8 @@ public class SnakesUIMain {
     public static void main(String[] args) throws InterruptedException, IOException {
         ArrayList<Bot> bots = new ArrayList<>();
         bots.add(new BotVS());
-        bots.add(new botVV());
         bots.add(new Bot_D_Kabirov());
+        bots.add(new BotVV());
         bots.add(new Bot_n_strygin());
         bots.add(new Bot_A_Zhuchkov());
 
