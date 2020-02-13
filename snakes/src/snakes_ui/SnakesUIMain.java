@@ -15,7 +15,7 @@ public class SnakesUIMain {
         ArrayList<Bot> bots = new ArrayList<>();
 //        bots.add(new BotVS());
         bots.add(new Bot_D_Kabirov());
-        bots.add(new Bot_V_Vasilev());
+        bots.add(new botVV());
 //        bots.add(new Bot_n_strygin());
 
         start_tournament_n_times(2, bots);
