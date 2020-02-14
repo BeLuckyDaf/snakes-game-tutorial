@@ -272,7 +272,7 @@ public class Bot_D_Kabirov implements Bot {
 //                    System.out.println();
 //                }
 
-                //System.out.println("HUNTING!!!");
+                System.out.println("HUNTING!!!");
                 for (Direction d : Direction.values()) {
                     if (snake.getHead().moveTo(d).equals(hunt_found)) {
                         return d;
@@ -323,6 +323,25 @@ public class Bot_D_Kabirov implements Bot {
         }
     }
 
+    private void start_bfs() {
+        Q = new LinkedList<>();
+        Coordinate head = snake.getHead();
+        for (Direction d : Direction.values()) {
+            Coordinate to = head.moveTo(d);
+            if (to.inBounds(mazeSize) && release[to.x][to.y] <= 1) {
+                ArrayList<Coordinate> to_list = new ArrayList<>();
+                to_list.add(to);
+                Q.add(to_list);
+            }
+        }
+
+        while (!Q.isEmpty() && found == null) {
+            ArrayList<Coordinate> cur_path = Q.getFirst();
+            Q.removeFirst();
+            bfs(cur_path.get(cur_path.size() - 1), cur_path);
+        }
+    }
+
     @Override
     public Direction chooseDirection(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple) {
         this.timeStart = System.currentTimeMillis();
@@ -334,11 +353,10 @@ public class Bot_D_Kabirov implements Bot {
         this.dfs_used = new boolean[mazeSize.x + 1][mazeSize.y + 1];
         this.bfs_used = new boolean[mazeSize.x + 1][mazeSize.y + 1];
         this.dist = new int[mazeSize.x + 1][mazeSize.y + 1];
-      //  this.count = new int[mazeSize.x + 1][mazeSize.y + 1];
         this.parent = new ArrayList[mazeSize.x + 1][mazeSize.y + 1];
         this.hunt_to = new ArrayList[mazeSize.x + 1][mazeSize.y + 1];
         this.hunt_used = new int[mazeSize.x + 1][mazeSize.y + 1];
-        this.HUNT_THRESHOLD = Math.min(opponent.body.size() + 1, 10);
+        this.HUNT_THRESHOLD = 10;//Math.min(opponent.body.size() + 1, 10);
         this.tree_killed_used = new HashSet<>();
 
         used = new HashSet[mazeSize.x][mazeSize.y];
@@ -368,38 +386,53 @@ public class Bot_D_Kabirov implements Bot {
             time -= 1;
         }
 
+        // Collide with other snake's head it has only one way to go
+        if (snake.body.size() > opponent.body.size()) {
+            Coordinate one_way = null;
+            for (Direction d : Direction.values()) {
+                Coordinate to = opponent.getHead().moveTo(d);
+                if (to.inBounds(mazeSize) && release[to.x][to.y] <= 1) {
+                    if (one_way == null) {
+                        one_way = to;
+                    }
+                    else {
+                        one_way = null;
+                        break;
+                    }
+                }
+            }
+
+            if (one_way != null) {
+                for (Direction d : Direction.values()) {
+                    Coordinate to = snake.getHead().moveTo(d);
+                    if (to.inBounds(mazeSize) && to.equals(one_way)) {
+                        return d;
+                    }
+                }
+            }
+        }
+
+
         Direction hunt_dir = hunt();
 
         if (hunt_dir != null) {
             return hunt_dir;
         }
 
+        ArrayList<Pair<Coordinate, Integer>> fear_cells = new ArrayList<>();
         if (opponent.elements.size() >= snake.elements.size()) { // remove = if you agree on a draw
             for (Direction d : Direction.values()) {
                 Coordinate to = opponent.getHead().moveTo(d);
-                if (to.inBounds(mazeSize)) {
+                if (to.inBounds(mazeSize) && release[to.x][to.y] <= 1) {
+                    fear_cells.add(new Pair<>(to, release[to.x][to.y]));
                     release[to.x][to.y] = opponent.body.size() + 1;
                 }
             }
         }
 
 
-        Q = new LinkedList<>();
+        start_bfs();
         Coordinate head = snake.getHead();
-        for (Direction d : Direction.values()) {
-            Coordinate to = head.moveTo(d);
-            if (to.inBounds(mazeSize) && release[to.x][to.y] <= 1) {
-                ArrayList<Coordinate> to_list = new ArrayList<>();
-                to_list.add(to);
-                Q.add(to_list);
-            }
-        }
-
-        while (!Q.isEmpty() && found == null) {
-            ArrayList<Coordinate> cur_path = Q.getFirst();
-            Q.removeFirst();
-            bfs(cur_path.get(cur_path.size() - 1), cur_path);
-        }
 
         if (found != null) {
             for (Direction d : Direction.values()) {
@@ -409,7 +442,40 @@ public class Bot_D_Kabirov implements Bot {
             }
             //System.out.println(found.x + " " + found.y);
         }
-        else { // CHECKED TILL NOW
+        else {
+            if (fear_cells.size() > 0) {
+                for (int i = 0; i < fear_cells.size(); i++) {
+                    release[fear_cells.get(i).getKey().x][fear_cells.get(i).getKey().y] = fear_cells.get(i).getValue();
+                }
+            }
+
+            start_bfs();
+            if (found != null) {
+                boolean dont_go = false;
+                for (Direction d : Direction.values()) {
+                    if (head.moveTo(d).equals(apple)) {
+                        dont_go = true;
+                        break;
+                    }
+                }
+
+                if (!dont_go) {
+                    for (Direction d : Direction.values()) {
+                        if (head.moveTo(d).equals(found)) {
+                            return d;
+                        }
+                    }
+                }
+            }
+
+            // set release back
+            for (Direction d : Direction.values()) {
+                Coordinate to = opponent.getHead().moveTo(d);
+                if (to.inBounds(mazeSize) && release[to.x][to.y] <= 1) {
+                    release[to.x][to.y] = opponent.body.size() + 1;
+                }
+            }
+
             //System.out.println("No path to apple");
             for (Direction d : Direction.values()) {
                 Coordinate to = head.moveTo(d);
@@ -418,9 +484,8 @@ public class Bot_D_Kabirov implements Bot {
                 }
             }
 
-            // can add here one more bfs without a fear of colliding
-
             // If no way, try to collide with other snake's head
+            // [never used]
             for (Direction d : Direction.values()) {
                 Coordinate to = head.moveTo(d);
                 if (to.inBounds(mazeSize) && !snake.elements.contains(to) && !opponent.elements.contains(to)) {
@@ -432,17 +497,6 @@ public class Bot_D_Kabirov implements Bot {
             Random rnd = new Random();
             return Direction.values()[rnd.nextInt(Direction.values().length)];
         }
-
-
-//        for (int i = 0; i < mazeSize.y; i++) {
-//            for (int j = 0; j < mazeSize.x; j++) {
-//                System.out.print(release[j][mazeSize.y - i - 1]);
-//                System.out.print(" ");
-//            }
-//            System.out.println();
-//        }
-
-       // System.out.println("Impossible move");
 
         return Direction.LEFT;
     }
