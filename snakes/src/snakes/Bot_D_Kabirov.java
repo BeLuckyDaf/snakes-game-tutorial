@@ -4,28 +4,7 @@ import javafx.util.Pair;
 
 import java.util.*;
 
-// Add TL
-// collide with oppoonent's head if i'm winning
-// implement hunt method
-// add path to queue bfs class // DONE
-// add order when put into the to queue according to Manhattan distance // DONE
-
 public class Bot_D_Kabirov implements Bot {
-
-//    private class queue_instance {
-//        Coordinate cur;
-//        //Coordinate from; // path is enough //
-//        //int travel_time; // path is enough // size of path
-//        Coordinate start;
-//        HashSet<Coordinate> path;
-//        public queue_instance(Coordinate cur, Coordinate start, HashSet<Coordinate> path) {
-//            this.cur = cur;
-//            this.start = start;
-//            this.path = (HashSet<Coordinate>)(path.clone());
-//        }
-//    }
-
-
     private int HUNT_THRESHOLD = 10;
     private final int USED_THRESHOLD = 3;
     private HashSet[][] used;
@@ -62,7 +41,6 @@ public class Bot_D_Kabirov implements Bot {
 
     private void preparing_hunt_bfs(Coordinate cur, int time_travel, Coordinate par) {
         if (bfs_used[cur.x][cur.y]) {
-                //if (dist[cur.x][cur.y] + 1 == dist[to.x][to.y]) {
             if (parent[cur.x][cur.y] == null)
                 parent[cur.x][cur.y] = new ArrayList<>(); // no need actually
             parent[cur.x][cur.y].add(par);
@@ -159,7 +137,6 @@ public class Bot_D_Kabirov implements Bot {
         if (left <= 0) {
             //System.out.println("FOUND A WAY TO HUNT" + left);
             hunt_found = path.get(0);
-            //System.out.println(hunt_found.x + " " + hunt_found.y);
             return;
         }
 
@@ -196,8 +173,7 @@ public class Bot_D_Kabirov implements Bot {
         }
     }
 
-    // if dist==1 don't go
-    private Direction hunt() { // boolean?
+    private Direction hunt() {
         //release should be set
 
         hunt_found = null;
@@ -206,7 +182,6 @@ public class Bot_D_Kabirov implements Bot {
 
         prep_hunt_Q = new LinkedList<>();
         prep_hunt_Q.add(new Prep_hunt_queue(opponent.getHead(), 0, null));
-        //fill the Q
         while(!prep_hunt_Q.isEmpty()) {
             Prep_hunt_queue cur = prep_hunt_Q.getFirst();
             prep_hunt_Q.removeFirst();
@@ -215,13 +190,10 @@ public class Bot_D_Kabirov implements Bot {
 
 
         if (treshold_total == 0) {
-            // Follow the tail?
             //System.out.println("Now I should follow the tail");
             return null;
         }
         else {
-            //System.out.println("total: " + treshold_total);
-
             for (int i = 0; i < mazeSize.x; i++)
                 for(int j = 0; j < mazeSize.y; j++)
                     hunt_used[i][j] = 0; // infinity
@@ -249,29 +221,10 @@ public class Bot_D_Kabirov implements Bot {
             while (!hunt_Q.isEmpty() && hunt_found == null) {
                 Hunt_queue cur = hunt_Q.getFirst();
                 hunt_Q.removeFirst();
-                //System.out.println(cur.path.get(cur.path.size() - 1).x + " " + cur.path.get(cur.path.size() - 1).y + " " + cur.tresholds_left);
                 hunt_bfs(cur.path.get(cur.path.size() - 1), cur.path, cur.tresholds_left, cur.killed);
             }
 
             if (hunt_found != null) {
-
-
-//                System.out.println("release:");
-//                for (int y = mazeSize.y - 1; y >= 0; y--) {
-//                    for (int x = 0; x < mazeSize.x; x++) {
-//                        System.out.print(release[x][y] + " ");
-//                    }
-//                    System.out.println();
-//                }
-//
-//                System.out.println("\ndist:");
-//                for (int y = mazeSize.y - 1; y >= 0; y--) {
-//                    for (int x = 0; x < mazeSize.x; x++) {
-//                        System.out.print(dist[x][y] + " ");
-//                    }
-//                    System.out.println();
-//                }
-
                 System.out.println("HUNTING!!!");
                 for (Direction d : Direction.values()) {
                     if (snake.getHead().moveTo(d).equals(hunt_found)) {
@@ -289,10 +242,9 @@ public class Bot_D_Kabirov implements Bot {
     }
 
     private void bfs(Coordinate cur, ArrayList<Coordinate> path) {
-        if (System.currentTimeMillis() - this.timeStart >= 950) {
+        if (System.currentTimeMillis() - this.timeStart >= 950)
             return;
-        }
-        //System.out.println(cur.x + " " + cur.y);
+
         if (cur.equals(apple)) {
             found = path.get(0);
             return;
