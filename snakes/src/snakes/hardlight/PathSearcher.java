@@ -120,7 +120,7 @@ public class PathSearcher {
         boolean mayDamaged = hasLessPoints && closeToOpponentHead;
         return next.inBounds(mazeSize) &&
                 isNotSnake(snake, next) &&
-                (opponent != null && isNotSnake(opponent, next));
+                (opponent == null || isNotSnake(opponent, next));
     }
 
     private boolean isNotSnake(Snake snake, Coordinate coordinate) {
