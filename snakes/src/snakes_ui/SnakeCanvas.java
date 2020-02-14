@@ -22,7 +22,7 @@ public class SnakeCanvas extends Canvas {
     private static final Color borderColor = new Color(22, 50, 76);
     private static final Color appleColor = Color.red;
     private static final ImageIcon apple = new ImageIcon(new ImageIcon(
-            "snakes\\src\\Image\\apple.png")
+            "snakes/src/Image/apple.png")
             .getImage().getScaledInstance(CELL_SIZE - 10, CELL_SIZE - 10, Image.SCALE_SMOOTH));
     Dimension renderSize;
     private SnakeGame game;

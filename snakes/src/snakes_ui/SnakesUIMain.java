@@ -1,6 +1,7 @@
 package snakes_ui;
 
 import snakes.*;
+import snakes.hardlight.BotHardlight;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 public class SnakesUIMain {
     private static final String RESULTS_FILE_PATH_PREFIX = "tournamentResultsLogs\\Iteration_";
     private static FileWriter results_fw;
-    private static int total_results_table[][];
+    private static int[][] total_results_table;
     /* UI Entry point */
     public static void main(String[] args) throws InterruptedException, IOException {
         ArrayList<Bot> bots = new ArrayList<>();
@@ -18,6 +19,7 @@ public class SnakesUIMain {
         bots.add(new BotVV());
         bots.add(new Bot_n_strygin());
         bots.add(new Bot_A_Zhuchkov());
+        bots.add(new BotHardlight());
 
         start_tournament_n_times(3, bots);
     }
