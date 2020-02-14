@@ -9,3 +9,5 @@ production/
 results.txt
 tournamentResultsLogs/*
 tournamentResultsLogs/
+snakes/tournamentResultsLogs/*
+snakes/tournamentResultsLogs/

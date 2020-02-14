@@ -1,6 +1,6 @@
-Bot_D_Kabirov vs BotVV : 0 - 1
+Bot_D_Kabirov vs BotVV : 1 - 0
 
 -------------------------------------------
 
-Bot_D_Kabirov earned: 0
-BotVV earned: 1
+Bot_D_Kabirov earned: 1
+BotVV earned: 0

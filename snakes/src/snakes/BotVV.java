@@ -49,7 +49,7 @@ public class BotVV implements Bot {
 
     private boolean wontDie(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple, Direction to) {
         Snake newSnake = snake.clone();
-        if (apple.x == snake.getHead().x + to.dx && apple.y == snake.getHead().y + to.dy)
+        if (apple.x == (snake.getHead().x + to.dx) && apple.y == (snake.getHead().y + to.dy))
             newSnake.moveTo(to, true);
         else
             newSnake.moveTo(to, false);
@@ -65,7 +65,7 @@ public class BotVV implements Bot {
         else
             newOp.moveTo(to, false);
 
-        return pathfindBFS(newSnake, newOp, mazeSize, snake.getHead()) != null;
+        return pathExistDFS(newSnake, newOp, mazeSize, snake.getHead());
     }
 
     private Direction toCenter(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple, Pair<Direction, Integer> opponentPath) {
@@ -87,7 +87,7 @@ public class BotVV implements Bot {
             safestMoves = new ArrayList<>(Arrays.asList(safeMoves));
 
         //if everywhere is death, commit suicide
-        if (safestMoves.size() == 0)
+        if (safeMoves.length == 0)
             return up;
 
         //if already at the center, go random, but don't die
@@ -117,6 +117,13 @@ public class BotVV implements Bot {
         if (bestMoves.peek() != null && arrContains(safestMoves, bestMoves.peek()))
             return bestMoves.peek();
 
+        //if can't calculate opponent path, don't count it
+        if (opponentPath == null) {
+            if (safestMoves.size() > 1)
+                return safestMoves.get(1);
+            return safestMoves.get(0);
+        }
+
         //return move that will not kill me
         if (opponentPath.getValue() < Math.abs(head.y - mazeSize.y / 2) && safestMoves.size() > 1)
             return safestMoves.get(1);
@@ -131,10 +138,64 @@ public class BotVV implements Bot {
         return false;
     }
 
-    private Pair<Direction, Integer> pathfindBFS(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple) {
+    private boolean pathExistDFS(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate to) {
+        int[][] maze = new int[mazeSize.x][mazeSize.y];
+        maze[to.x][to.y] = -1;
+        //create a matrix of flags. true is checked, false is not.
+        boolean[][] visited = new boolean[mazeSize.x][mazeSize.y];
+
+        int size = snake.body.size();
+        int i = 0;
+        for (Coordinate c : snake.body) {
+            maze[c.x][c.y] = size - i;
+            i++;
+        }
+
+        size = opponent.body.size();
+        i = 0;
+        for (Coordinate c : opponent.body) {
+            maze[c.x][c.y] = size - i;
+            i++;
+        }
+
+        Coordinate cur = snake.getHead();
+        return pathExistDFS(maze, visited, cur, 0);
+    }
+
+    private boolean pathExistDFS(int[][] maze, boolean[][] visited, Coordinate cur, int i) {
+        visited[cur.x][cur.y] = true;
+
+        if (maze[cur.x][cur.y] == -1)
+            return true;
+
+        //if too long calculations, return null
+        if (System.nanoTime() - start > 800000000L) {
+            System.out.println("BotVV have no enough time, goes random");
+            return true;
+        }
+
+        if (cur.y != 0 && maze[cur.x][cur.y - 1] <= i && !visited[cur.x][cur.y - 1]) {
+            if (pathExistDFS(maze, visited, new Coordinate(cur.x, cur.y - 1), i + 1))
+                return true;
+        }
+        if (cur.y != maze[0].length - 1 && maze[cur.x][cur.y + 1] <= i && !visited[cur.x][cur.y + 1]) {
+            if (pathExistDFS(maze, visited, new Coordinate(cur.x, cur.y + 1), i + 1))
+                return true;
+        }
+        if (cur.x != maze.length - 1 && maze[cur.x + 1][cur.y] <= i && !visited[cur.x + 1][cur.y]) {
+            if (pathExistDFS(maze, visited, new Coordinate(cur.x + 1, cur.y), i + 1))
+                return true;
+        }
+        if (cur.x != 0 && maze[cur.x - 1][cur.y] <= i && !visited[cur.x - 1][cur.y])
+            return pathExistDFS(maze, visited, new Coordinate(cur.x - 1, cur.y), i + 1);
+
+        return false;
+    }
+
+    private Pair<Direction, Integer> pathfindBFS(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate to) {
         //create a matrix of cells. 0 is free, -1 is apple, n is the number of turns after which it will be free.
         int[][] maze = new int[mazeSize.x][mazeSize.y];
-        maze[apple.x][apple.y] = -1;
+        maze[to.x][to.y] = -1;
         //create a matrix of flags. true is checked, false is not.
         Direction[][] mazeFrom = new Direction[mazeSize.x][mazeSize.y];
 
@@ -186,7 +247,10 @@ public class BotVV implements Bot {
             i = manhattanDistance(cur, snake.getHead());
 
             //if too long calculations, return null
-            if (System.nanoTime() - start > 800000000L) return null;
+            if (System.nanoTime() - start > 800000000L) {
+                System.out.println("BotVV have no enough time, goes random");
+                return null;
+            }
 
              if (cur.y != 0 && mazeFrom[cur.x][cur.y - 1] == null && maze[cur.x][cur.y - 1] - i < 2 ) {
                 if (maze[cur.x][cur.y - 1] == -1)
@@ -216,12 +280,12 @@ public class BotVV implements Bot {
 
         return null;
     }
-    private Direction[] safeDirections(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple) {
+    private Direction[] safeDirections(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate to) {
         Snake mySnake = snake.clone();
         Snake opponentSnake = opponent.clone();
         Coordinate head = mySnake.getHead();
 
-        if (manhattanDistance(opponentSnake.getHead(), apple) != 1)
+        if (manhattanDistance(opponentSnake.getHead(), to) != 1)
             opponentSnake.body.removeLast();
         mySnake.body.removeLast();
 
