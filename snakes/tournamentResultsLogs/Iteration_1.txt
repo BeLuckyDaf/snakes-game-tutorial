@@ -1,6 +1,6 @@
-Bot_D_Kabirov vs BotVV : 0 - 1
+Bot_D_Kabirov vs BotHardlight : 1 - 0 (Time taken: 3.862)
 
 -------------------------------------------
 
-Bot_D_Kabirov earned: 0
-BotVV earned: 1
+Bot_D_Kabirov earned: 1
+BotHardlight earned: 0

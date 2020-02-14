@@ -14,11 +14,11 @@ public class SnakesUIMain {
     /* UI Entry point */
     public static void main(String[] args) throws InterruptedException, IOException {
         ArrayList<Bot> bots = new ArrayList<>();
-        bots.add(new BotVS());
+//        bots.add(new BotVS());
         bots.add(new Bot_D_Kabirov());
-        bots.add(new BotVV());
-        bots.add(new Bot_n_strygin());
-        bots.add(new Bot_A_Zhuchkov());
+//        bots.add(new BotVV());
+//        bots.add(new Bot_n_strygin());
+//        bots.add(new Bot_A_Zhuchkov());
         bots.add(new BotHardlight());
 
         start_tournament_n_times(3, bots);
@@ -51,11 +51,6 @@ public class SnakesUIMain {
         Coordinate head1 = new Coordinate(5, 5);
         Direction tailDirection1 = Direction.UP;
         int snakeSize = 3;
-//        Coordinate head0 = new Coordinate(0, 3);
-//        Direction tailDirection0 = Direction.DOWN;
-//        Coordinate head1 = new Coordinate(1, 5);
-//        Direction tailDirection1 = Direction.DOWN;
-//        int snakeSize = 4;
 
         // a number assiciated to each player in bots ArrayList
         ArrayList<Integer> playerNumber = new ArrayList<>();
@@ -92,8 +87,11 @@ public class SnakesUIMain {
                 Thread.sleep(1000); // to allow users see the result
                 window.closeWindow();
 
-                results_fw.write(game.name0 + " vs " + game.name1 + " : " + game.gameResult + "\n");
-                System.out.println(game.name0 + " vs " + game.name1 + " : " + game.gameResult + "\n");
+                float time_taken = (float)(System.currentTimeMillis() - game.startTime) / 1000;
+                results_fw.write(game.name0 + " vs " + game.name1 + " : " + game.gameResult + "");
+                results_fw.write(" (Time taken: " + time_taken + ")\n");
+                System.out.print(game.name0 + " vs " + game.name1 + " : " + game.gameResult);
+                System.out.println(" (Time taken: " + time_taken + ")");
 
                 // add the result of the game to total points
                 points.set(playerNumber.get(i), points.get(playerNumber.get(i)) + Integer.parseInt(game.gameResult.substring(0, 1)));

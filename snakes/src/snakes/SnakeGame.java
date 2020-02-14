@@ -18,6 +18,7 @@ public class SnakeGame {
     public int appleEaten1 = 0;
     private int snakeSize;
     public String name0,name1;
+    public long startTime;
 
     private SnakesRunner bot0_runner, bot1_runner;
 
@@ -35,6 +36,7 @@ public class SnakeGame {
     public SnakeGame(Coordinate mazeSize, Coordinate head0, Direction tailDir0, Coordinate head1, Direction tailDir1, int size,
                      Bot bot0, Bot bot1) {
         snakeSize = size;
+        this.startTime = System.currentTimeMillis();
         this.mazeSize = mazeSize;
         this.snake0 = new Snake(head0, tailDir0, size, mazeSize);
         this.snake1 = new Snake(head1, tailDir1, size, mazeSize);
