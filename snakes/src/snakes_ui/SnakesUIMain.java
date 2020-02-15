@@ -14,14 +14,15 @@ public class SnakesUIMain {
     /* UI Entry point */
     public static void main(String[] args) throws InterruptedException, IOException {
         ArrayList<Bot> bots = new ArrayList<>();
-        bots.add(new BotVS());
-        bots.add(new Bot_D_Kabirov());
+//        bots.add(new BotVS());
+//        bots.add(new Bot_D_Kabirov());
+        bots.add(new Bot_user_control());
         bots.add(new BotVV());
 //        bots.add(new Bot_n_strygin());
-        bots.add(new Bot_A_Zhuchkov());
-        bots.add(new BotHardlight());
+//        bots.add(new Bot_A_Zhuchkov());
+//        bots.add(new BotHardlight());
 
-        start_tournament_n_times(3, bots);
+        start_tournament_n_times(5, bots);
     }
 
     public static void start_tournament_n_times(int n, ArrayList<Bot> bots) throws IOException, InterruptedException {

@@ -1,6 +1,6 @@
-Bot_D_Kabirov vs BotHardlight : 1 - 0 (Time taken: 45.228)
+Bot_user_control vs BotVV : 0 - 1 (Time taken: 19.267)
 
 -------------------------------------------
 
-Bot_D_Kabirov earned: 1
-BotHardlight earned: 0
+Bot_user_control earned: 0
+BotVV earned: 1
