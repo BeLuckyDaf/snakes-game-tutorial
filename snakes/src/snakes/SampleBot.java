@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class Bot_n_strygin implements Bot {
-    private final Random rnd = new Random();
+public class SampleBot implements Bot {
     private static final Direction[] DIRECTIONS = new Direction[] {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
 
     @Override
@@ -14,6 +13,8 @@ public class Bot_n_strygin implements Bot {
     public Direction chooseDirection(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple) {
         Coordinate head = snake.getHead();
 
+        /* Get the coordinate of the second element of the snake's body
+         * to prevent going backwards */
         Coordinate afterHeadNotFinal = null;
         if (snake.body.size() >= 2) {
             Iterator<Coordinate> it = snake.body.iterator();
@@ -25,7 +26,7 @@ public class Bot_n_strygin implements Bot {
 
         /* The only illegal move is going backwards. Here we are checking for not doing it */
         Direction[] validMoves = Arrays.stream(DIRECTIONS)
-                .filter(d -> !head.moveTo(d).equals(afterHead))
+                .filter(d -> !head.moveTo(d).equals(afterHead)) // Filter out the backwards move
                 .sorted()
                 .toArray(Direction[]::new);
 
@@ -37,12 +38,8 @@ public class Bot_n_strygin implements Bot {
                 .sorted()
                 .toArray(Direction[]::new);
 
-        if (notLosing.length > 0) /* If you want more randomness and tension to the game, uncomment the rnd stuff */
-            //return notLosing[0];
-            return notLosing[rnd.nextInt(notLosing.length)];
-        else
-            // We can't avoid losing here :shrug:
-            //return validMoves[0];
-            return validMoves[rnd.nextInt(validMoves.length)];
+        if (notLosing.length > 0) return notLosing[0];
+        else return validMoves[0];
+        /* ^^^ Cannot avoid losing here */
     }
 }
