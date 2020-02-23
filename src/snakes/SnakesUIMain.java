@@ -4,6 +4,10 @@ public class SnakesUIMain {
     /* UI Entry point */
     public static void main(String[] args) {
 
+        BotLoader loader = new BotLoader();
+        Bot firstBot = loader.getBotClass(args[0]);
+        Bot secondBot = loader.getBotClass(args[1]);
+
         SnakeGame game = new SnakeGame(
                 new Coordinate(14, 14), // mazeSize
 
@@ -13,11 +17,12 @@ public class SnakesUIMain {
                 new Coordinate(7, 7), // head1
                 Direction.UP,           // tailDirection1
                 3,                 // initial snake size
-                new SampleBot(),      // bot0
-                new SampleBot()       // bot1
+                firstBot,      // bot0
+                secondBot       // bot1
         );
 
         SnakesWindow window = new SnakesWindow(game);
         new Thread(window).start();
     }
 }
+

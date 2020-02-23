@@ -11,8 +11,11 @@ public enum Direction {
     RIGHT(1, 0),
     LEFT(-1, 0);
 
+    public final int dx, dy;
+    public final Coordinate v;
     /**
      * Construct the direction of movement
+     *
      * @param dx row coordinate
      * @param dy column coordinate
      */
@@ -21,7 +24,4 @@ public enum Direction {
         this.dy = dy;
         this.v = new Coordinate(dx, dy);
     }
-
-    public final int dx, dy;
-    public final Coordinate v;
 }

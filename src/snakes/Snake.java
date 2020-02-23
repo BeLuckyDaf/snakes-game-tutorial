@@ -17,9 +17,10 @@ public class Snake implements Cloneable {
 
     /**
      * Construct a snake with the body that defined in elements HashSet
+     *
      * @param mazeSize size of the board
      * @param elements Coordinates that define body elements of the snake
-     * @param body Coordinates that define body elements of the snake
+     * @param body     Coordinates that define body elements of the snake
      */
     private Snake(Coordinate mazeSize, HashSet<Coordinate> elements, Deque<Coordinate> body) {
         this.mazeSize = mazeSize;
@@ -30,8 +31,9 @@ public class Snake implements Cloneable {
 
     /**
      * Initialize snake with length 1
+     *
      * @param initialHead coordinate of initial position of snake
-     * @param mazeSize size of the board
+     * @param mazeSize    size of the board
      */
     public Snake(Coordinate initialHead, Coordinate mazeSize) {
         this(mazeSize, new HashSet<Coordinate>(), new LinkedList<Coordinate>());
@@ -43,10 +45,11 @@ public class Snake implements Cloneable {
 
     /**
      * Construct snake with predefined length
-     * @param head An initial coordinate of snake's head
+     *
+     * @param head          An initial coordinate of snake's head
      * @param tailDirection An initial direction of the snake's tail in which direction snake should grow
-     * @param size A size of snake after expansion
-     * @param mazeSize size of the board
+     * @param size          A size of snake after expansion
+     * @param mazeSize      size of the board
      */
     public Snake(Coordinate head, Direction tailDirection, int size, Coordinate mazeSize) {
         this(head, mazeSize);
@@ -61,6 +64,7 @@ public class Snake implements Cloneable {
 
     /**
      * Get head position
+     *
      * @return Coordinates with place of snake's head
      */
     public Coordinate getHead() {
@@ -70,7 +74,8 @@ public class Snake implements Cloneable {
 
     /**
      * Move snake in direction
-     * @param d direction where should snake crawl
+     *
+     * @param d    direction where should snake crawl
      * @param grow True - if snake eat an apple
      * @return False - if collides with itself or maze bounds
      */
@@ -93,6 +98,7 @@ public class Snake implements Cloneable {
 
     /**
      * Check whether head collides with another snake
+     *
      * @param other Snake body of opponent's snake
      * @return True - if collides with another snake
      */
@@ -102,11 +108,11 @@ public class Snake implements Cloneable {
 
     /**
      * Clone snake
+     *
      * @return copy of current snake
      */
     @Override
-    public Snake clone()
-    {
+    public Snake clone() {
         HashSet<Coordinate> newElements = new HashSet<>(elements);
         LinkedList<Coordinate> newBody = new LinkedList<>(body);
         return new Snake(mazeSize, newElements, newBody);

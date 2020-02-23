@@ -84,17 +84,17 @@ public class SnakeCanvas extends Canvas {
         //Print the score on score board
         g.setFont(new Font("Comic Sans MS", Font.PLAIN, 28));
         g.setColor(new Color(228, 255, 224));
-        g.drawString(game.gameResult, renderSize.width/2 - getFontMetrics(g.getFont()).stringWidth(game.gameResult)/2, renderSize.height - 10); //game results
+        g.drawString(game.gameResult, renderSize.width / 2 - getFontMetrics(g.getFont()).stringWidth(game.gameResult) / 2, renderSize.height - 10); //game results
 
         //Print snakes symbol on score board
         g.setColor(new Color(92, 192, 255)); //outer
-        g.fillRect(renderSize.width / 2 - 2*CELL_SIZE + 14, renderSize.height - CELL_SIZE + 11, CELL_SIZE - 18, CELL_SIZE - 18);
+        g.fillRect(renderSize.width / 2 - 2 * CELL_SIZE + 14, renderSize.height - CELL_SIZE + 11, CELL_SIZE - 18, CELL_SIZE - 18);
         g.setColor(new Color(92, 192, 255)); //inner
-        g.fillRect(renderSize.width / 2 - 2*CELL_SIZE + 18, renderSize.height - CELL_SIZE + 15, CELL_SIZE - 26, CELL_SIZE - 26);
+        g.fillRect(renderSize.width / 2 - 2 * CELL_SIZE + 18, renderSize.height - CELL_SIZE + 15, CELL_SIZE - 26, CELL_SIZE - 26);
         g.setColor(new Color(255, 255, 255)); //outer
-        fillRect(g,renderSize.width / 2 + 2*CELL_SIZE - 14, renderSize.height - CELL_SIZE + 11, CELL_SIZE - 18, CELL_SIZE - 18);
+        fillRect(g, renderSize.width / 2 + 2 * CELL_SIZE - 14, renderSize.height - CELL_SIZE + 11, CELL_SIZE - 18, CELL_SIZE - 18);
         g.setColor(new Color(255, 255, 255)); //inner
-        fillRect(g,renderSize.width / 2 + 2*CELL_SIZE - 18, renderSize.height - CELL_SIZE + 15, CELL_SIZE - 26, CELL_SIZE - 26);
+        fillRect(g, renderSize.width / 2 + 2 * CELL_SIZE - 18, renderSize.height - CELL_SIZE + 15, CELL_SIZE - 26, CELL_SIZE - 26);
 
         //Print apple symbols on score board
         apple.paintIcon(this, g, renderSize.width / 2 - 3 * CELL_SIZE, renderSize.height - CELL_SIZE + 3);
@@ -102,12 +102,12 @@ public class SnakeCanvas extends Canvas {
 
         //Print apple counts on score board
         g.drawString(Integer.toString(game.appleEaten0), renderSize.width / 2 - 4 * CELL_SIZE, renderSize.height - 10);
-        drawString(g,Integer.toString(game.appleEaten1), renderSize.width / 2 + 4 * CELL_SIZE, renderSize.height - 10);
+        drawString(g, Integer.toString(game.appleEaten1), renderSize.width / 2 + 4 * CELL_SIZE, renderSize.height - 10);
 
         //Print bot names on score board
         g.setFont(new Font("Comic Sans MS", Font.PLAIN, 15));
-        g.drawString(game.name0,CELL_SIZE,renderSize.height - 10);
-        drawString(g,game.name1,renderSize.width - CELL_SIZE, renderSize.height - 10);
+        g.drawString(game.name0, CELL_SIZE, renderSize.height - 10);
+        drawString(g, game.name1, renderSize.width - CELL_SIZE, renderSize.height - 10);
     }
 
     /* repaint the control */
@@ -121,16 +121,16 @@ public class SnakeCanvas extends Canvas {
     }
 
     //right align drawing texts
-    public void drawString(Graphics2D g, String s, int x, int y){
-        g.drawString(s,x-getFontMetrics(g.getFont()).stringWidth(s),y);
+    public void drawString(Graphics2D g, String s, int x, int y) {
+        g.drawString(s, x - getFontMetrics(g.getFont()).stringWidth(s), y);
     }
 
     //right align drawing images
-    public void paintIcon(Graphics2D g, ImageIcon i, int x, int y){
-        i.paintIcon(this,g,x - i.getIconWidth(),y);
+    public void paintIcon(Graphics2D g, ImageIcon i, int x, int y) {
+        i.paintIcon(this, g, x - i.getIconWidth(), y);
     }
 
-    public void fillRect(Graphics2D g, int x, int y, int width, int height){
-        g.fillRect(x-width,y,width,height);
+    public void fillRect(Graphics2D g, int x, int y, int width, int height) {
+        g.fillRect(x - width, y, width, height);
     }
 }

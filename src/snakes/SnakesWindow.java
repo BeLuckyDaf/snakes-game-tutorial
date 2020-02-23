@@ -3,7 +3,7 @@ package snakes;
 import javax.swing.*;
 import java.awt.*;
 
-public class SnakesWindow implements Runnable{
+public class SnakesWindow implements Runnable {
     private JFrame frame;
     private SnakeCanvas canvas;
     private SnakeGame game;
@@ -11,7 +11,7 @@ public class SnakesWindow implements Runnable{
     private boolean running = false;
 
     /* construct main window */
-    public SnakesWindow(SnakeGame game){
+    public SnakesWindow(SnakeGame game) {
         frame = new JFrame("Snake Game");
         this.game = game;
         canvas = new SnakeCanvas(game);
@@ -37,11 +37,18 @@ public class SnakesWindow implements Runnable{
         //canvas.bufferStrategy = canvas.getBufferStrategy();
     }
 
+    public static void centreWindow(Window frame) {
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+        frame.setLocation(x, y);
+    }
+
     /* run the UI */
-    public void run(){
+    public void run() {
         running = true;
         canvas.repaint();
-        while(running) {
+        while (running) {
             long t = System.currentTimeMillis();
 
             running = game.runOneStep();
@@ -59,12 +66,6 @@ public class SnakesWindow implements Runnable{
         }
 
         JOptionPane.showMessageDialog(null, game.gameResult, "Game results", JOptionPane.INFORMATION_MESSAGE);
-    }
-    public static void centreWindow(Window frame) {
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
-        frame.setLocation(x, y);
     }
 }
 

@@ -7,6 +7,7 @@ import java.util.Objects;
  */
 public class Coordinate implements Comparable<Coordinate> {
     public final int x, y;
+
     public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
@@ -14,6 +15,7 @@ public class Coordinate implements Comparable<Coordinate> {
 
     /**
      * Add two coordinates of two points
+     *
      * @param a first coordinate
      * @param b second coordinate
      * @return result of summation of coordinates
@@ -25,6 +27,7 @@ public class Coordinate implements Comparable<Coordinate> {
 
     /**
      * Move coordinate in direction
+     *
      * @param d the direction in which coordinate should be moved
      * @return a moved coordinate
      */
@@ -34,6 +37,7 @@ public class Coordinate implements Comparable<Coordinate> {
 
     /**
      * Check whether coordinate is in bounds of board
+     *
      * @param mazeSize size of the game board
      * @return True - if coordinate in bounds
      */
@@ -44,6 +48,7 @@ public class Coordinate implements Comparable<Coordinate> {
 
     /**
      * Check whether objects are equal - coordinates in particular
+     *
      * @param o an object that should be compared
      * @return True - if equal
      */
@@ -59,6 +64,7 @@ public class Coordinate implements Comparable<Coordinate> {
 
     /**
      * Compute hash code for coordinates
+     *
      * @return hashcode
      */
     @Override
@@ -69,6 +75,7 @@ public class Coordinate implements Comparable<Coordinate> {
 
     /**
      * Compare to other coordinate
+     *
      * @param o coordinate
      * @return comparison result
      */

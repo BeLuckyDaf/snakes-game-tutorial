@@ -10,25 +10,27 @@ public class SnakeGame {
     // timeout threshold for taking a decision in seconds
     private static final long TIMEOUT_THRESHOLD = 1;
     public final Snake snake0, snake1;
-    private final Bot bot0, bot1;
     public final Coordinate mazeSize;
+    private final Bot bot0, bot1;
     private final Random rnd = new Random();
     public Coordinate appleCoordinate;
     public String gameResult = "0 - 0";
     public int appleEaten0 = 0;
     public int appleEaten1 = 0;
+    public String name0, name1;
     private int snakeSize;
-    public String name0,name1;
+
     /**
      * Constructs SnakeGame class
+     *
      * @param mazeSize size of the game board
-     * @param head0 initial coordinate of first snake's head
+     * @param head0    initial coordinate of first snake's head
      * @param tailDir0 initial direction of first snake's tail
-     * @param head1 initial coordinate of second snake's head
+     * @param head1    initial coordinate of second snake's head
      * @param tailDir1 initial direction of first snake's tail
-     * @param size initial length of snakes
-     * @param bot0 first smart snake bot
-     * @param bot1 second smart snake bot
+     * @param size     initial length of snakes
+     * @param bot0     first smart snake bot
+     * @param bot1     second smart snake bot
      */
     public SnakeGame(Coordinate mazeSize, Coordinate head0, Direction tailDir0, Coordinate head1, Direction tailDir1, int size,
                      Bot bot0, Bot bot1) {
@@ -47,6 +49,7 @@ public class SnakeGame {
 
     /**
      * Converts game to string representation
+     *
      * @return game state as a string
      */
     public String toString() {
@@ -89,6 +92,7 @@ public class SnakeGame {
 
     /**
      * Outputs text to stdout and file
+     *
      * @param text text that should be displayed
      */
     private void output(String text) {
@@ -116,6 +120,7 @@ public class SnakeGame {
 
     /**
      * Run one game step, return whether to continue the game
+     *
      * @return whether to continue the game
      */
     public boolean runOneStep() {
@@ -190,17 +195,19 @@ public class SnakeGame {
 
     /**
      * Check time spent by a snake for taking decision does not exceed the threshold
+     *
      * @param startTime starting time of deciding next move
-     * @param endTime finish time of thinking
+     * @param endTime   finish time of thinking
      * @return True - if exceed
      */
-    private boolean checkTimeout(long startTime, long endTime){
+    private boolean checkTimeout(long startTime, long endTime) {
         long duration = (endTime - startTime) / 1000;
         return duration > TIMEOUT_THRESHOLD;
     }
 
     /**
      * Selects random non-occupied cell of maze
+     *
      * @return random non-occupied coordinate of the game board
      */
     private Coordinate randomNonOccupiedCell() {

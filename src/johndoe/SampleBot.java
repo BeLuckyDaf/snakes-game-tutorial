@@ -1,12 +1,15 @@
-package snakes;
+package johndoe;
+
+import snakes.Bot;
+import snakes.Coordinate;
+import snakes.Direction;
+import snakes.Snake;
 
 import java.util.Arrays;
 import java.util.Iterator;
-import java.util.Random;
-import java.util.stream.Stream;
 
 public class SampleBot implements Bot {
-    private static final Direction[] DIRECTIONS = new Direction[] {Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
+    private static final Direction[] DIRECTIONS = new Direction[]{Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
 
     @Override
     /* choose the direction (stupidly) */

@@ -7,44 +7,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e5ce35c-ebc6-47af-af02-e36c0df84f9c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/snakes.ipr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface_options/andrey_liniushin.rar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface_options/arthur_denislamov.rar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface_options/georgy_andryuschenko.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface_options/lada_morozova.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface_options/nikita_strygin.zip" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface_options/vladimir_markov.tar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/snakes.iml" beforeDir="false" afterPath="$PROJECT_DIR$/snakes.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/src/Image/apple.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/src/snakes/Bot.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/src/snakes/Coordinate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/src/snakes/Direction.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/src/snakes/SampleBot.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/src/snakes/Snake.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/src/snakes/SnakeGame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/src/snakes_ui/SnakeCanvas.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/src/snakes_ui/SnakesUIMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/src/snakes_ui/SnakesWindow.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes/stale_outputs_checked" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/logFile.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes/Bot.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes/Bot_n_strygin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes/Coordinate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes/Direction.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes/Snake.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes/SnakeGame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes/SnakesMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes_game/BotRandom.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes_ui/SnakeCanvas.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes_ui/SnakesUIMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes_project/src/snakes_ui/SnakesWindow.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/snakes/BotLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/snakes.iws" beforeDir="false" afterPath="$PROJECT_DIR$/snakes.iws" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/snakes/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/Bot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/snakes/Coordinate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/Coordinate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/snakes/Direction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/Direction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/snakes/SampleBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/johndoe/SampleBot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/snakes/Snake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/Snake.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/snakes/SnakeCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/SnakeCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/snakes/SnakeGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/SnakeGame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/snakes/SnakesUIMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/SnakesUIMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/snakes/SnakesWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/SnakesWindow.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -77,6 +62,7 @@
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="snakes.SnakesUIMain" />
       <module name="snakes" />
+      <option name="PROGRAM_PARAMETERS" value="johndoe.SampleBot johndoe.SampleBot" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -92,15 +78,20 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1582408142633</updated>
-      <workItem from="1582408143867" duration="2125000" />
+      <workItem from="1582408143867" duration="2577000" />
+      <workItem from="1582454639928" duration="3663000" />
     </task>
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="734" y="355" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582408759910">
+    <state x="734" y="355" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1582472679548">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="734" y="355" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1582408759910" />
+    <state x="734" y="355" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1582472679548" />
+    <state x="1085" y="410" key="#com.intellij.ide.util.MemberChooser" timestamp="1582470498770">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1085" y="410" key="#com.intellij.ide.util.MemberChooser/0.0.2560.1400@0.0.2560.1400" timestamp="1582470498770" />
     <state x="1009" y="484" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1582409441405">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -109,22 +100,22 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1060" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1582409484086" />
-    <state width="2517" height="401" key="GridCell.Tab.0.bottom" timestamp="1582410289629">
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom" timestamp="1582473067823">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1582410289629" />
-    <state width="2517" height="401" key="GridCell.Tab.0.center" timestamp="1582410289629">
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1582473067823" />
+    <state width="2517" height="401" key="GridCell.Tab.0.center" timestamp="1582473067823">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1582410289629" />
-    <state width="2517" height="401" key="GridCell.Tab.0.left" timestamp="1582410289629">
+    <state width="2517" height="401" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1582473067823" />
+    <state width="2517" height="401" key="GridCell.Tab.0.left" timestamp="1582473067823">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1582410289629" />
-    <state width="2517" height="401" key="GridCell.Tab.0.right" timestamp="1582410289629">
+    <state width="2517" height="401" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1582473067823" />
+    <state width="2517" height="401" key="GridCell.Tab.0.right" timestamp="1582473067823">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1582410289629" />
+    <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1582473067823" />
     <state x="760" y="275" key="SettingsEditor" timestamp="1582410267518">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -133,5 +124,9 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1084" y="569" key="classpath-attribute-editor/0.0.2560.1400@0.0.2560.1400" timestamp="1582409443785" />
+    <state x="976" y="524" key="com.intellij.ide.util.TipDialog" timestamp="1582454859881">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="976" y="524" key="com.intellij.ide.util.TipDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1582454859881" />
   </component>
 </project>
