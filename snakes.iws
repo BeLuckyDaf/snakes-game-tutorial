@@ -6,19 +6,7 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3e5ce35c-ebc6-47af-af02-e36c0df84f9c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/snakes/BotLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/snakes.iws" beforeDir="false" afterPath="$PROJECT_DIR$/snakes.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/snakes/Bot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/Bot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/snakes/Coordinate.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/Coordinate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/snakes/Direction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/Direction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/snakes/SampleBot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/johndoe/SampleBot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/snakes/Snake.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/Snake.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/snakes/SnakeCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/SnakeCanvas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/snakes/SnakeGame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/SnakeGame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/snakes/SnakesUIMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/SnakesUIMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/snakes/SnakesWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/snakes/SnakesWindow.java" afterDir="false" />
-    </list>
+    <list default="true" id="3e5ce35c-ebc6-47af-af02-e36c0df84f9c" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,7 +67,8 @@
       <option name="presentableId" value="Default" />
       <updated>1582408142633</updated>
       <workItem from="1582408143867" duration="2577000" />
-      <workItem from="1582454639928" duration="3663000" />
+      <workItem from="1582454639928" duration="4140000" />
+      <workItem from="1582585860442" duration="709000" />
     </task>
     <servers />
   </component>
@@ -100,22 +89,22 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1060" y="455" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1582409484086" />
-    <state width="2517" height="401" key="GridCell.Tab.0.bottom" timestamp="1582473067823">
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom" timestamp="1582473071880">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1582473067823" />
-    <state width="2517" height="401" key="GridCell.Tab.0.center" timestamp="1582473067823">
+    <state width="2517" height="401" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1582473071880" />
+    <state width="2517" height="401" key="GridCell.Tab.0.center" timestamp="1582473071879">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1582473067823" />
-    <state width="2517" height="401" key="GridCell.Tab.0.left" timestamp="1582473067823">
+    <state width="2517" height="401" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1582473071879" />
+    <state width="2517" height="401" key="GridCell.Tab.0.left" timestamp="1582473071879">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1582473067823" />
-    <state width="2517" height="401" key="GridCell.Tab.0.right" timestamp="1582473067823">
+    <state width="2517" height="401" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1582473071879" />
+    <state width="2517" height="401" key="GridCell.Tab.0.right" timestamp="1582473071880">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1582473067823" />
+    <state width="2517" height="401" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1582473071880" />
     <state x="760" y="275" key="SettingsEditor" timestamp="1582410267518">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -124,9 +113,9 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1084" y="569" key="classpath-attribute-editor/0.0.2560.1400@0.0.2560.1400" timestamp="1582409443785" />
-    <state x="976" y="524" key="com.intellij.ide.util.TipDialog" timestamp="1582454859881">
+    <state x="976" y="524" key="com.intellij.ide.util.TipDialog" timestamp="1582585977303">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state x="976" y="524" key="com.intellij.ide.util.TipDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1582454859881" />
+    <state x="976" y="524" key="com.intellij.ide.util.TipDialog/0.0.2560.1400@0.0.2560.1400" timestamp="1582585977303" />
   </component>
 </project>
