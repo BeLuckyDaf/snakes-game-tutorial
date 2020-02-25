@@ -7,8 +7,7 @@ import java.util.Random;
 
 public class SnakeGame {
     private static final String LOG_FILE = "log.txt";
-    // timeout threshold for taking a decision in seconds
-    private static final long TIMEOUT_THRESHOLD = 1;
+    private static final long TIMEOUT_THRESHOLD = 1;// timeout threshold for taking a decision in seconds
     public final Snake snake0, snake1;
     public final Coordinate mazeSize;
     private final Bot bot0, bot1;
@@ -17,8 +16,11 @@ public class SnakeGame {
     public String gameResult = "0 - 0";
     public int appleEaten0 = 0;
     public int appleEaten1 = 0;
-    public String name0, name1;
     private int snakeSize;
+    public String name0,name1;
+    public long startTime;
+
+    private SnakesRunner bot0_runner, bot1_runner;
 
     /**
      * Constructs SnakeGame class
@@ -35,6 +37,7 @@ public class SnakeGame {
     public SnakeGame(Coordinate mazeSize, Coordinate head0, Direction tailDir0, Coordinate head1, Direction tailDir1, int size,
                      Bot bot0, Bot bot1) {
         snakeSize = size;
+        this.startTime = System.currentTimeMillis();
         this.mazeSize = mazeSize;
         this.snake0 = new Snake(head0, tailDir0, size, mazeSize);
         this.snake1 = new Snake(head1, tailDir1, size, mazeSize);
@@ -44,6 +47,9 @@ public class SnakeGame {
         this.name1 = bot1.getClass().getSimpleName();
 
         appleCoordinate = randomNonOccupiedCell();
+
+        this.bot0_runner = new SnakesRunner(bot0, snake0, snake1, mazeSize, appleCoordinate);
+        this.bot1_runner = new SnakesRunner(bot1, snake1, snake0, mazeSize, appleCoordinate);
     }
 
 
@@ -96,7 +102,7 @@ public class SnakeGame {
      * @param text text that should be displayed
      */
     private void output(String text) {
-        System.out.println(text);
+        //System.out.println(text);
         FileWriter fw;
         try {
             fw = new FileWriter(LOG_FILE, true);
@@ -123,23 +129,53 @@ public class SnakeGame {
      *
      * @return whether to continue the game
      */
-    public boolean runOneStep() {
+    public boolean runOneStep() throws InterruptedException {
         output(toString());
 
         // the first bot takes a decision of next move
-        long startTime = System.currentTimeMillis();
-        Direction d0 = bot0.chooseDirection(snake0, snake1, mazeSize, appleCoordinate);
-        long endTime = System.currentTimeMillis();
 
+        bot0_runner.apple = appleCoordinate;
+        Thread bot0_thread = new Thread(bot0_runner);
 
-        boolean s0timeout = checkTimeout(startTime, endTime);
+        bot0_thread.start();
+        bot0_thread.join(TIMEOUT_THRESHOLD * 1000);
+        boolean s0timeout = false;
+        if (bot0_thread.isAlive()) {
+            bot0_thread.interrupt();
+            s0timeout = true;
+            System.out.println(bot0.getClass().getSimpleName() + " took too long to make a decision");
+        }
+
+        Direction d0 = bot0_runner.choosen_direction;
 
         // the second bot takes a decision of next move
-        startTime = System.currentTimeMillis();
-        Direction d1 = bot1.chooseDirection(snake1, snake0, mazeSize, appleCoordinate);
-        endTime = System.currentTimeMillis();
+        bot1_runner.apple = appleCoordinate;
+        Thread bot1_thread = new Thread(bot1_runner);
 
-        boolean s1timeout = checkTimeout(startTime, endTime);
+        bot1_thread.start();
+        bot1_thread.join(TIMEOUT_THRESHOLD * 1000);
+
+        boolean s1timeout = false;
+        if (bot1_thread.isAlive()) {
+            bot1_thread.interrupt();
+            s1timeout = true;
+            System.out.println(bot1.getClass().getSimpleName() + " took too long to make a decision");
+        }
+
+        Direction d1 = bot1_runner.choosen_direction;
+
+        /*
+            Stopping game condition
+            - one of the snakes decides what it's next move too long
+         */
+        boolean timeout = s0timeout || s1timeout;
+        if (timeout) {
+            gameResult = "";
+            String result = (s0timeout ? 0 : 1) + " - " + (s1timeout ? 0 : 1);
+            gameResult += result;
+            return false;
+        }
+
 
         output("snake0->" + d0 + ", snake1->" + d1);
         output("Apples eaten: " + appleEaten0 + " - " + appleEaten1);
@@ -163,9 +199,8 @@ public class SnakeGame {
 
         /* stopping game condition
             - one of snakes collides with something
-            - one of the snakes decides what it's next move too long
         */
-        boolean cont = !(s0dead || s1dead || s0timeout || s1timeout);
+        boolean cont = !(s0dead || s1dead);
 
         if (!cont) {
             gameResult = "";
@@ -174,6 +209,7 @@ public class SnakeGame {
                 result = (s0dead ? 0 : 1) + " - " + (s1dead ? 0 : 1);
             else if (s0dead && s1dead)
                 result = (appleEaten0 > appleEaten1 ? 1 : 0) + " - " + (appleEaten1 > appleEaten0 ? 1 : 0);
+
             gameResult += result;
         }
         return cont;
@@ -182,7 +218,7 @@ public class SnakeGame {
     /**
      * Run the game
      */
-    public void run() {
+    public void run() throws InterruptedException {
         while (runOneStep())
             try {
                 Thread.sleep(1000);
@@ -193,17 +229,17 @@ public class SnakeGame {
         output(gameResult);
     }
 
-    /**
-     * Check time spent by a snake for taking decision does not exceed the threshold
-     *
-     * @param startTime starting time of deciding next move
-     * @param endTime   finish time of thinking
-     * @return True - if exceed
-     */
-    private boolean checkTimeout(long startTime, long endTime) {
-        long duration = (endTime - startTime) / 1000;
-        return duration > TIMEOUT_THRESHOLD;
-    }
+    // no need anymore
+//    /**
+//     * Check time spent by a snake for taking decision does not exceed the threshold
+//     * @param startTime starting time of deciding next move
+//     * @param endTime finish time of thinking
+//     * @return True - if exceed
+//     */
+//    private boolean checkTimeout(long startTime, long endTime){
+//        long duration = (endTime - startTime) / 1000;
+//        return duration > TIMEOUT_THRESHOLD;
+//    }
 
     /**
      * Selects random non-occupied cell of maze

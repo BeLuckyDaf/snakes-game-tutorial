@@ -15,6 +15,6 @@ public interface Bot {
      * @param apple    Coordinate of an apple
      * @return Direction in which snake should crawl next game step
      */
-    Direction chooseDirection(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple);
+    public Direction chooseDirection(final Snake snake, final Snake opponent, final Coordinate mazeSize, final Coordinate apple);
 }
 

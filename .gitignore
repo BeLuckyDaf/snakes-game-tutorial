@@ -4,3 +4,10 @@ log.txt
 src/snakes/out
 */log.txt
 out
+results.txt
+production/
+results.txt
+tournamentResultsLogs/*
+tournamentResultsLogs/
+snakes/tournamentResultsLogs/*
+snakes/tournamentResultsLogs/

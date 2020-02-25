@@ -85,11 +85,13 @@ public class Snake implements Cloneable {
         if (!newHead.inBounds(mazeSize))
             return false; // Left maze
 
+        if (!grow) {
+            elements.remove(body.removeLast());
+        }
+
         if (elements.contains(newHead))
             return false; // Collided with itself
 
-        if (!grow)
-            elements.remove(body.removeLast());
         body.addFirst(newHead);
         elements.add(newHead);
 

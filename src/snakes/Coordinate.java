@@ -36,6 +36,19 @@ public class Coordinate implements Comparable<Coordinate> {
     }
 
     /**
+     * Get direction from current point to other point
+     * @param other point to move
+     * @return direction
+     */
+    public Direction getDirection(Coordinate other) {
+        final Coordinate vector = new Coordinate(other.x - this.x, other.y - this.y);
+        for (Direction direction : Direction.values())
+            if (direction.dx == vector.x && direction.dy == vector.y)
+                return direction;
+        return null;
+    }
+
+    /**
      * Check whether coordinate is in bounds of board
      *
      * @param mazeSize size of the game board
