@@ -1,1 +1,0 @@
-git stash && git fetch up develop && git rebase up/develop && git stash apply

@@ -1,6 +1,0 @@
-Bot_user_control vs BotVV : 0 - 1 (Time taken: 26.0)
-
--------------------------------------------
-
-Bot_user_control earned: 0
-BotVV earned: 1
