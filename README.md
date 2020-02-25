@@ -6,9 +6,7 @@ Snakes AI has got a very simple interface for bot creation. The minimum you need
 
 ### Clone the repository
 
-Clone the repo using Git: `git clone git@github.com:ljonata/snakes_game.git`
-
-Now checkout to the tutorial branch: `git checkout tutorial`
+Clone the repo using Git: `git clone git@github.com:BeLuckyDaf/snakes-game-tutorial.git`
 
 ### Open the project
 
