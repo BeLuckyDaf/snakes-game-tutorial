@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 
+/**
+ * This class is responsible for the game's GUI window
+ */
 public class SnakesWindow implements Runnable {
     private JFrame frame;
     private SnakeCanvas canvas;
@@ -13,7 +16,10 @@ public class SnakesWindow implements Runnable {
 
     private boolean running = false;
 
-    /* construct main window */
+    /**
+     * Creates and set ups the window
+     * @param game main game flow with all its states within
+     */
     public SnakesWindow(SnakeGame game) {
         frame = new JFrame("Snake Game");
         this.game = game;
@@ -40,6 +46,10 @@ public class SnakesWindow implements Runnable {
         //canvas.bufferStrategy = canvas.getBufferStrategy();
     }
 
+    /**
+     * Centers the window
+     * @param frame game's window
+     */
     public static void centreWindow(Window frame) {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
@@ -47,7 +57,9 @@ public class SnakesWindow implements Runnable {
         frame.setLocation(x, y);
     }
 
-    /* run the UI */
+    /**
+     * Runs the UI
+     */
     public void run() {
         running = true;
         canvas.repaint();
@@ -86,7 +98,9 @@ public class SnakesWindow implements Runnable {
 
     }
 
-    // Closes the frame
+    /**
+     * Closes the frame
+     */
     public void closeWindow() {
         frame.setVisible(false);
         frame.dispose();
