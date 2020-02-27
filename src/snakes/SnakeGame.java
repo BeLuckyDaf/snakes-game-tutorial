@@ -150,7 +150,7 @@ public class SnakeGame {
             System.out.println(bot0.getClass().getSimpleName() + " took too long to make a decision");
         }
 
-        Direction d0 = bot0_runner.choosen_direction;
+        Direction d0 = bot0_runner.chosen_direction;
 
         // the second bot takes a decision of next move
         bot1_runner.apple = appleCoordinate;
@@ -166,7 +166,7 @@ public class SnakeGame {
             System.out.println(bot1.getClass().getSimpleName() + " took too long to make a decision");
         }
 
-        Direction d1 = bot1_runner.choosen_direction;
+        Direction d1 = bot1_runner.chosen_direction;
 
         /*
             Stopping game condition
