@@ -3,7 +3,7 @@ package snakes;
 import java.util.Objects;
 
 /**
- * This class implements coordinate of a cell on the game boar
+ * Implements coordinate of a cell on the game boar
  */
 public class Coordinate implements Comparable<Coordinate> {
     public final int x, y;

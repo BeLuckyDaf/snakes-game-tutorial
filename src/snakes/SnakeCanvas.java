@@ -5,6 +5,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Iterator;
 
+/**
+ *
+ */
 public class SnakeCanvas extends Canvas {
     private static final int CELL_SIZE = 40;
     private static final int PAD = 2;
@@ -22,7 +25,11 @@ public class SnakeCanvas extends Canvas {
     Dimension renderSize;
     private SnakeGame game;
 
-    /* construct snake canvas */
+
+    /**
+     * Construct snake canvas
+     * @param game
+     */
     public SnakeCanvas(SnakeGame game) {
         this.game = game;
         java.net.URL imageURL = getClass().getResource("images/apple.png");

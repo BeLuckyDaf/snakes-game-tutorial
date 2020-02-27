@@ -3,8 +3,16 @@ package snakes;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
+/**
+ *
+ */
 public class BotLoader extends ClassLoader {
 
+    /**
+     *
+     * @param classBinName
+     * @return
+     */
     public Bot getBotClass(String classBinName) {
         try {
             // Create a new JavaClassLoader

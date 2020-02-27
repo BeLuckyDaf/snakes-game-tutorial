@@ -11,6 +11,9 @@ public enum Direction {
     RIGHT(1, 0),
     LEFT(-1, 0);
 
+    /**
+     *
+     */
     public final int dx, dy;
     public final Coordinate v;
     /**

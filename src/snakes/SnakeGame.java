@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * Implements main game flow
+ * Run game for two bots
+ */
 public class SnakeGame {
     private static final String LOG_FILE = "log.txt";
     private static final long TIMEOUT_THRESHOLD = 1;// timeout threshold for taking a decision in seconds
@@ -228,18 +232,6 @@ public class SnakeGame {
 
         output(gameResult);
     }
-
-    // no need anymore
-//    /**
-//     * Check time spent by a snake for taking decision does not exceed the threshold
-//     * @param startTime starting time of deciding next move
-//     * @param endTime finish time of thinking
-//     * @return True - if exceed
-//     */
-//    private boolean checkTimeout(long startTime, long endTime){
-//        long duration = (endTime - startTime) / 1000;
-//        return duration > TIMEOUT_THRESHOLD;
-//    }
 
     /**
      * Selects random non-occupied cell of maze
