@@ -9,9 +9,12 @@ import java.util.Arrays;
 public class BotLoader extends ClassLoader {
 
     /**
+     * Fetches the class given the name of the class and the package,
+     * the class would be taken from the classpath and could be dynamically
+     * added after the game is compiled.
      *
-     * @param classBinName
-     * @return
+     * @param classBinName The name of the Bot class to load.
+     * @return An instance of the Bot class
      */
     public Bot getBotClass(String classBinName) {
         try {
