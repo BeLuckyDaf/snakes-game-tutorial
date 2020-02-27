@@ -40,7 +40,7 @@ public class SnakeCanvas extends Canvas {
     }
 
     /**
-     * Fills cell with color & pads by pad
+     * Fills cell with color and pads by pad
      * @param g     game field
      * @param cell  cell to fill
      * @param color color to fill
@@ -52,7 +52,7 @@ public class SnakeCanvas extends Canvas {
     }
 
     /**
-     * Fills cell with color & pads by constant PAD
+     * Fills cell with color and pads by constant PAD
      * @param g     game field
      * @param cell  cell to fill
      * @param color color to fill
@@ -62,7 +62,7 @@ public class SnakeCanvas extends Canvas {
     }
 
     /**
-     * Fills cell with color & padding by constant SMALLER_PAD
+     * Fills cell with color and padding by constant SMALLER_PAD
      * @param g     game field
      * @param cell  cell to fill
      * @param color color to fill
@@ -72,7 +72,7 @@ public class SnakeCanvas extends Canvas {
     }
 
     /**
-     * Fills cell with color & padding by constant SMALL_PAD
+     * Fills cell with color and padding by constant SMALL_PAD
      * @param g     game field
      * @param cell  cell to fill
      * @param color color to fill
