@@ -1,18 +1,24 @@
 package snakes;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- *
+ * Implements tournament of the snake game with several rounds
  */
 public class SnakesUIMain {
-    private static final String RESULTS_FILE_PATH_PREFIX = "tournamentResultsLogs\\Iteration_";
+    private static final String LOG_DIRECTORY_PATH = "logs";
     private static FileWriter results_fw;
     private static int[][] total_results_table;
-    /* UI Entry point */
 
+    /**
+     * UI Entry point
+     * @param args Two classes implementing the Bot interface
+     * @throws InterruptedException Threads handler
+     * @throws IOException  FileWriter handler
+     */
     public static void main(String[] args) throws InterruptedException, IOException {
         if (args.length < 2) {
             System.err.println("You must provide two classes implementing the Bot interface.");
@@ -22,23 +28,33 @@ public class SnakesUIMain {
         ArrayList<Bot> bots = new ArrayList<>();
         BotLoader loader = new BotLoader();
 
-        // TODO: expand to any number of bots
         bots.add(loader.getBotClass(args[0]));
         bots.add(loader.getBotClass(args[1]));
 
         start_tournament_n_times(5, bots);
     }
 
+    /**
+     * Launch several rounds of snake game between bots
+     * @param n Number of rounds
+     * @param bots Competitive bots
+     * @throws IOException FileWriter handler
+     * @throws InterruptedException Threads handler
+     */
     public static void start_tournament_n_times(int n, ArrayList<Bot> bots) throws IOException, InterruptedException {
         total_results_table = new int[bots.size() + 1][bots.size() + 1];
+        File dir = new File(LOG_DIRECTORY_PATH);
+        if (!dir.exists() && !dir.mkdirs()) {
+            System.err.println("Cannot create log directory.");
+        }
         for (int i = 0; i < n; i++) {
             System.out.println("\nTournament iteration number " + i + "\n");
-            results_fw = new FileWriter("snakes\\" + RESULTS_FILE_PATH_PREFIX + i + ".txt", false);
+            results_fw = new FileWriter(String.format("%s\\iteration_%d.txt", LOG_DIRECTORY_PATH, i), false);
             start_round_robin_tournament(bots);
             results_fw.close();
         }
 
-        results_fw = new FileWriter("snakes\\tournamentResultsLogs\\Total_results.txt", false);
+        results_fw = new FileWriter(String.format("%s\\total.txt", LOG_DIRECTORY_PATH), false);
         for (int i = 0; i < bots.size(); i++)
             for (int j = i + 1; j < bots.size(); j++) {
                 if (bots.get(i) == null || bots.get(j) == null) continue;
@@ -48,6 +64,12 @@ public class SnakesUIMain {
         results_fw.close();
     }
 
+    /**
+     * Start tournament between bots
+     * @param bots Competitive bots
+     * @throws InterruptedException Threads handler
+     * @throws IOException FileWriter handler
+     */
     public static void start_round_robin_tournament(ArrayList<Bot> bots) throws InterruptedException, IOException {
         // init game settings
         Coordinate mazeSize = new Coordinate(14, 14);
@@ -57,7 +79,7 @@ public class SnakesUIMain {
         Direction tailDirection1 = Direction.UP;
         int snakeSize = 3;
 
-        // a number assiciated to each player in bots ArrayList
+        // a number associated to each player in bots ArrayList
         ArrayList<Integer> playerNumber = new ArrayList<>();
 
         // points earned by each player

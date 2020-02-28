@@ -7,7 +7,4 @@ out
 results.txt
 production/
 results.txt
-tournamentResultsLogs/*
-tournamentResultsLogs/
-snakes/tournamentResultsLogs/*
-snakes/tournamentResultsLogs/
+logs
