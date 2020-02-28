@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.Iterator;
 
 /**
- *
+ * This class is responsible for the snakes canvas in GUI
  */
 public class SnakeCanvas extends Canvas {
     private static final int CELL_SIZE = 40;
@@ -25,10 +25,9 @@ public class SnakeCanvas extends Canvas {
     Dimension renderSize;
     private SnakeGame game;
 
-
     /**
-     * Construct snake canvas
-     * @param game
+     * Constructs snake canvas
+     * @param game main game flow with all its states within
      */
     public SnakeCanvas(SnakeGame game) {
         this.game = game;
@@ -40,28 +39,52 @@ public class SnakeCanvas extends Canvas {
         renderSize = new Dimension((game.mazeSize.x + 2) * CELL_SIZE, (game.mazeSize.y + 2) * CELL_SIZE);
     }
 
-    /* fill cell with some padding */
+    /**
+     * Fills cell with color and pads by pad
+     * @param g     game field
+     * @param cell  cell to fill
+     * @param color color to fill
+     * @param pad   cell padding
+     */
     private void fillCellWithPad(Graphics2D g, Coordinate cell, Color color, int pad) {
         g.setColor(color);
         g.fillRect((cell.x + 1) * CELL_SIZE + pad, (cell.y + 1) * CELL_SIZE + pad, CELL_SIZE - 2 * pad, CELL_SIZE - 2 * pad);
     }
 
-    /* fill cell */
+    /**
+     * Fills cell with color and pads by constant PAD
+     * @param g     game field
+     * @param cell  cell to fill
+     * @param color color to fill
+     */
     private void fillCell(Graphics2D g, Coordinate cell, Color color) {
         fillCellWithPad(g, cell, color, PAD);
     }
 
-    /* fill smaller cell */
+    /**
+     * Fills cell with color and padding by constant SMALLER_PAD
+     * @param g     game field
+     * @param cell  cell to fill
+     * @param color color to fill
+     */
     private void fillSmallerCell(Graphics2D g, Coordinate cell, Color color) {
         fillCellWithPad(g, cell, color, SMALLER_PAD);
     }
 
-    /* fill small cell */
+    /**
+     * Fills cell with color and padding by constant SMALL_PAD
+     * @param g     game field
+     * @param cell  cell to fill
+     * @param color color to fill
+     */
     private void fillSmallCell(Graphics2D g, Coordinate cell, Color color) {
         fillCellWithPad(g, cell, color, SMALL_PAD);
     }
 
-    /* render the game */
+    /**
+     * Renders the game
+     * @param g game field
+     */
     private void render(Graphics2D g) {
 
         g.setColor(borderColor);
@@ -117,7 +140,10 @@ public class SnakeCanvas extends Canvas {
         drawString(g, game.name1, renderSize.width - CELL_SIZE, renderSize.height - 10);
     }
 
-    /* repaint the control */
+    /**
+     * Repaints the control.
+     * @param g game field
+     */
     @Override
     public void paint(Graphics g) {
         Graphics2D gg = (Graphics2D) g; //bufferStrategy.getDrawGraphics();
@@ -127,16 +153,36 @@ public class SnakeCanvas extends Canvas {
         //bufferStrategy.show();
     }
 
-    //right align drawing texts
+    /**
+     * Right align drawing texts
+     * @param g game field
+     * @param s text to draw
+     * @param x x-axis position of the first character
+     * @param y y-axis position of the first character
+     */
     public void drawString(Graphics2D g, String s, int x, int y) {
         g.drawString(s, x - getFontMetrics(g.getFont()).stringWidth(s), y);
     }
 
-    //right align drawing images
+    /**
+     * Right align drawing images
+     * @param g game field
+     * @param i image to draw
+     * @param x x-axis position of the top-left corner
+     * @param y y-axis position of the top-left corner
+     */
     public void paintIcon(Graphics2D g, ImageIcon i, int x, int y) {
         i.paintIcon(this, g, x - i.getIconWidth(), y);
     }
 
+    /**
+     * Fills rectangle
+     * @param g      game field to fill
+     * @param x      x-axis position of the rectangle
+     * @param y      y-axis position of the rectangle
+     * @param width  width of the rectangle
+     * @param height height of the rectangle
+     */
     public void fillRect(Graphics2D g, int x, int y, int width, int height) {
         g.fillRect(x - width, y, width, height);
     }

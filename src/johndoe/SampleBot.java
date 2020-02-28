@@ -8,11 +8,21 @@ import snakes.Snake;
 import java.util.Arrays;
 import java.util.Iterator;
 
+/**
+ * Sample implementation of snake bot
+ */
 public class SampleBot implements Bot {
     private static final Direction[] DIRECTIONS = new Direction[]{Direction.UP, Direction.DOWN, Direction.LEFT, Direction.RIGHT};
 
+    /**
+     * Choose the direction (not rational - silly)
+     * @param snake    Your snake's body with coordinates for each segment
+     * @param opponent Opponent snake's body with coordinates for each segment
+     * @param mazeSize Size of the board
+     * @param apple    Coordinate of an apple
+     * @return Direction of bot's move
+     */
     @Override
-    /* choose the direction (stupidly) */
     public Direction chooseDirection(Snake snake, Snake opponent, Coordinate mazeSize, Coordinate apple) {
         Coordinate head = snake.getHead();
 
@@ -43,6 +53,6 @@ public class SampleBot implements Bot {
 
         if (notLosing.length > 0) return notLosing[0];
         else return validMoves[0];
-        /* ^^^ Cannot avoid losing here */
+        /* Cannot avoid losing here */
     }
 }

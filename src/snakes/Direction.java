@@ -11,10 +11,9 @@ public enum Direction {
     RIGHT(1, 0),
     LEFT(-1, 0);
 
-    /**
-     *
-     */
+    // x and y coordinate
     public final int dx, dy;
+    // vector of movement
     public final Coordinate v;
     /**
      * Construct the direction of movement
