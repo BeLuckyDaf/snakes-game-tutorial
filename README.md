@@ -11,20 +11,50 @@ Snakes AI has got a very simple interface for bot creation. The minimum you need
 
 ### Clone the repository
 
-Clone the repo using Git: 
+Clone the repo using Git:
 ```
+// ssh
 git clone git@github.com:BeLuckyDaf/snakes-game-tutorial.git
-// or
+
+// https (you don't know why the one above doesn't work)
 git clone https://github.com/BeLuckyDaf/snakes-game-tutorial.git
 ```
+or simply download the [zip file](https://github.com/BeLuckyDaf/snakes-game-tutorial/archive/master.zip).
 
 ### Open the project
 
 Open *snakes.ipr* in IntelliJ Idea or any other IDE.
 
+1. Set up JDK
+    
+    a. Open Project Structure
+	
+    <img src="https://i.imgur.com/3HclqiQ.png" width="400px">
+    
+    b. Choose the correct version
+	
+	<img src="https://i.imgur.com/rLaCxCH.png" width="400px">
+	
+2. Set up a configuration
+    
+    a. Open the configuration settings
+	
+	<img src="https://i.imgur.com/epnjA1K.png" width="400px">
+    
+    b. Set correct JRE version for Main
+	
+	<img src="https://i.imgur.com/gRuwuuF.png" width="400px">
+    
+    c. Add or change your bot name. *(return here after you've finished the tutorial)*
+	
+	<img src="https://i.imgur.com/itzElFW.png" width="400px">
+
 ### Launch the game
 
-The sample bot is already set up in the project, simply compile and launch the game.
+The sample bot is already set up in the project, simply compile and launch the game by pressing Shift+F10 or `Run > Run 'Main'` in the menu.
+
+<img src="https://i.imgur.com/gYTVIqa.png" width="400px">
+
 
 ## Example bot
 
@@ -223,6 +253,8 @@ You must pass two bots, in order for the game to work, those could be the same.
 Let's use your newly written bot with the one, provided by us. Even though, they actually are the same.
 
 `java snakes.SnakesUIMain johndoe.SampleBot student.MyBot`
+
+*Note: this command is executed in the folder with already compiled .class files, not in the src directory. **You do not need** to worry about this if you are using an IDE, such as IntelliJ Idea.*
 
 If you are using any IDE, you could add those program arguments to be added automatically whenever you want to run or debug the program.
 

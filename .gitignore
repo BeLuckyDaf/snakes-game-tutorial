@@ -6,5 +6,5 @@ src/snakes/out
 out
 results.txt
 production/
-results.txt
+*.iws
 logs
