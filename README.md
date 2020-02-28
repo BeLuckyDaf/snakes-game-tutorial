@@ -4,6 +4,11 @@ Snakes AI has got a very simple interface for bot creation. The minimum you need
 
 ## Set up the workspace
 
+### Requirements
+
+* [JDK 8](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
+* [IntelliJ Idea](https://www.jetbrains.com/idea/) (optional, recommended)
+
 ### Clone the repository
 
 Clone the repo using Git: `git clone git@github.com:BeLuckyDaf/snakes-game-tutorial.git`
