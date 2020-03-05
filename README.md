@@ -31,7 +31,7 @@ Open *snakes.ipr* in IntelliJ Idea or any other IDE.
 	
     <img src="https://i.imgur.com/3HclqiQ.png" width="400px">
     
-    b. Choose the correct version
+    b. Choose the correct JDK version and project language level, it is **level 8**.
 	
 	<img src="https://i.imgur.com/rLaCxCH.png" width="400px">
 	
