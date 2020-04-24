@@ -16,7 +16,7 @@ public class BotLoader extends ClassLoader {
      * @param classBinName The name of the Bot class to load.
      * @return An instance of the Bot class
      */
-    public Bot getBotClass(String classBinName) {
+    public Class<? extends Bot> getBotClass(String classBinName) {
         try {
             // Create a new JavaClassLoader
             ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -33,7 +33,7 @@ public class BotLoader extends ClassLoader {
 
             Class<? extends Bot> botClass = loadedMyClass.asSubclass(Bot.class);
             Constructor<? extends Bot> botClassCtor = botClass.getConstructor();
-            return botClassCtor.newInstance();
+            return botClass;
 
         } catch (Exception e) {
             e.printStackTrace();

@@ -3,6 +3,7 @@ package snakes;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 /**
@@ -19,13 +20,13 @@ public class SnakesUIMain {
      * @throws InterruptedException Threads handler
      * @throws IOException  FileWriter handler
      */
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args) throws InterruptedException, IOException, NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
         if (args.length < 2) {
             System.err.println("You must provide two classes implementing the Bot interface.");
             System.exit(1);
         }
 
-        ArrayList<Bot> bots = new ArrayList<>();
+        ArrayList<Class<? extends Bot>> bots = new ArrayList<>();
         BotLoader loader = new BotLoader();
 
         bots.add(loader.getBotClass(args[0]));
@@ -41,7 +42,7 @@ public class SnakesUIMain {
      * @throws IOException FileWriter handler
      * @throws InterruptedException Threads handler
      */
-    public static void start_tournament_n_times(int n, ArrayList<Bot> bots) throws IOException, InterruptedException {
+    public static void start_tournament_n_times(int n, ArrayList<Class<? extends Bot>> bots) throws IOException, InterruptedException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         total_results_table = new int[bots.size() + 1][bots.size() + 1];
         File dir = new File(LOG_DIRECTORY_PATH);
         if (!dir.exists() && !dir.mkdirs()) {
@@ -70,7 +71,7 @@ public class SnakesUIMain {
      * @throws InterruptedException Threads handler
      * @throws IOException FileWriter handler
      */
-    public static void start_round_robin_tournament(ArrayList<Bot> bots) throws InterruptedException, IOException {
+    public static void start_round_robin_tournament(ArrayList<Class<? extends Bot>> bots) throws InterruptedException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         // init game settings
         Coordinate mazeSize = new Coordinate(14, 14);
         Coordinate head0 = new Coordinate(2, 2);
@@ -102,9 +103,8 @@ public class SnakesUIMain {
             // play N / 2 rounds
             for (int i = 0; i < bots.size() / 2; i++) {
                 // start the game between ith and N-i-1 bots
-                Bot bot0 = bots.get(i);
-                Bot bot1 = bots.get(bots.size() - i - 1);
-                if (bot0 == null || bot1 == null) continue;
+                Bot bot0 = bots.get(i).getConstructor().newInstance();
+                Bot bot1 = bots.get(bots.size() - i - 1).getConstructor().newInstance();
                 SnakeGame game = new SnakeGame(mazeSize, head0, tailDirection0, head1, tailDirection1, snakeSize, bot0, bot1);
                 SnakesWindow window = new SnakesWindow(game);
                 Thread t = new Thread(window);
@@ -130,11 +130,11 @@ public class SnakesUIMain {
             }
 
             // shuffle players in special way
-            Bot buffer_player = bots.get(1);
+            Class<? extends Bot> buffer_player = bots.get(1);
             int buffer_player_number = playerNumber.get(1);
             for (int i = 2; i < bots.size(); i++) {
                 // swap elements
-                Bot t = buffer_player;
+                Class<? extends Bot> t = buffer_player;
                 int t_number = buffer_player_number;
 
                 buffer_player = bots.get(i);
