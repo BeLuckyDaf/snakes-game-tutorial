@@ -8,3 +8,4 @@ results.txt
 production/
 *.iws
 logs
+/bin/
