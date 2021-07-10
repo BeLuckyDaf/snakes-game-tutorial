@@ -101,4 +101,10 @@ public class Coordinate implements Comparable<Coordinate> {
         else
             return dx;
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%d, %d)", x, y);
+    }
+
 }
