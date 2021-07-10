@@ -139,24 +139,34 @@ public class SnakeGame {
 
 		bot0_runner.apple = appleCoordinate;
 		Thread bot0_thread = new Thread(bot0_runner);
-
+		
+		try{
 		bot0_thread.start();
 		bot0_thread.join(TIMEOUT_THRESHOLD * 1000);
+		}catch(Exception e){
+			s0timeout = true;
+			System.out.println(bot0.getClass().getSimpleName() + " threw an exception");
+		}
 		boolean s0timeout = false;
 		if (bot0_thread.isAlive()) {
 			bot0_thread.interrupt();
 			s0timeout = true;
 			System.out.println(bot0.getClass().getSimpleName() + " took too long to make a decision");
 		}
-
+		
 		Direction d0 = bot0_runner.chosen_direction;
 
 		// the second bot takes a decision of next move
 		bot1_runner.apple = appleCoordinate;
 		Thread bot1_thread = new Thread(bot1_runner);
 
+		try{
 		bot1_thread.start();
 		bot1_thread.join(TIMEOUT_THRESHOLD * 1000);
+		}catch(Exception e){
+			s0timeout = true;
+			System.out.println(bot1.getClass().getSimpleName() + " threw an exception");
+		}
 
 		boolean s1timeout = false;
 		if (bot1_thread.isAlive()) {
