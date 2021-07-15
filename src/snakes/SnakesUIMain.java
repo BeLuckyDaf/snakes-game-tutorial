@@ -59,8 +59,8 @@ public class SnakesUIMain {
         for (int i = 0; i < bots.size(); i++)
             for (int j = i + 1; j < bots.size(); j++) {
                 if (bots.get(i) == null || bots.get(j) == null) continue;
-                System.out.println("\n" + bots.get(i).getClass().getSimpleName() + " vs. " + bots.get(j).getClass().getSimpleName() + ": " + total_results_table[i][j] + " - " + total_results_table[j][i]);
-                results_fw.write(bots.get(i).getClass().getSimpleName() + " vs. " + bots.get(j).getClass().getSimpleName() + ": " + total_results_table[i][j] + " - " + total_results_table[j][i] + "\n");
+                System.out.println("\n" + bots.get(i).getSimpleName() + " vs. " + bots.get(j).getSimpleName() + ": " + total_results_table[i][j] + " - " + total_results_table[j][i]);
+                results_fw.write(bots.get(i).getSimpleName() + " vs. " + bots.get(j).getSimpleName() + ": " + total_results_table[i][j] + " - " + total_results_table[j][i] + "\n");
             }
         results_fw.close();
     }
@@ -96,7 +96,7 @@ public class SnakesUIMain {
             playerNumber.add(i);
             points.add(0);
             if (bots.get(i) != null)
-                bots_names.add(bots.get(i).getClass().getSimpleName());
+                bots_names.add(bots.get(i).getSimpleName());
         }
 
         for (int k = 0; k < bots.size() - 1; k++) {
